@@ -4,10 +4,16 @@
   },
   "extends": "airbnb-base",
   "globals": {
-    "ellipse": false
+    "p5": false
   },
   "rules": {
     "semi": ["error", "never"],
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "new-cap": ["error", {
+      "newIsCapExceptions": ["p5"]
+    }],
+    "no-param-reassign": ["error", {
+      "props": false
+    }]
   }
 }
