@@ -1,0 +1,13 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": "airbnb-base",
+  "globals": {
+    "ellipse": false
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "object-curly-newline": "off"
+  }
+}
