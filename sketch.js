@@ -51,14 +51,17 @@ const sketch = (p) => {
     p.endShape(p.CLOSE)
   }
 
-  const drawDeformedPoly = (radius, offset) => {
+  const drawDeformedPoly = (radius, offset, colour) => {
     const randomRadius = p.randomGaussian(radius, radius / 10)
     const baseShape = rPolygon(0, 0, randomRadius, 10)
     let polygon = baseShape
 
+    const fill = p.color(colour)
+    fill.setAlpha(0.04)
+    p.fill(fill)
+
     p.translate(p.width / 2, p.height / 2)
     p.translate(offset.x, offset.y)
-    p.fill(p.random(360), 80, 60, 0.01)
 
     const iterations = 3
     for (let iteration = 0; iteration < iterations; iteration += 1) {
@@ -90,11 +93,10 @@ const sketch = (p) => {
 
   p.draw = () => {
     const radius = 100
-    const offset = radius * 0.7
+    const offset = radius * 0.4
 
-    drawDeformedPoly(radius, { x: -offset, y: offset })
-    drawDeformedPoly(radius, { x: offset, y: offset })
-    drawDeformedPoly(radius, { x: 0, y: -offset })
+    drawDeformedPoly(radius, { x: -offset, y: 0 }, '#E0F9B5')
+    drawDeformedPoly(radius, { x: offset, y: 0 }, '#A5DEE5')
   }
 }
 
