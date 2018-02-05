@@ -1,57 +1,58 @@
-const TWO_PI = Math.PI * 2
-
 const canvas = document.getElementById('canvas')
 
 const sketch = (p) => {
-  const rPoly = (x, y, radius, nsides) => {
+  const rPolygon = (x, y, radius, nsides) => {
     const points = []
-    const angle = TWO_PI / nsides
+    const angle = p.TWO_PI / nsides
 
-    for (let a = 0; a < TWO_PI; a += angle) {
+    for (let a = 0; a < p.TWO_PI; a += angle) {
       points.push({
         x: x + (Math.cos(a) * radius),
         y: y + (Math.sin(a) * radius),
+        z: p.random(-1, 1),
       })
     }
 
     return points
   }
 
-  const subdivide = (points, { x: x1, y: y1 }, p2, depth, variance, vdiv) => {
-    if (depth >= 0) {
-      const midX = (x1 + p2.x) / 2
-      const midY = (y1 + p2.y) / 2
-      const pN = {
-        // x: midX + (p.randomGaussian() * variance),
-        x: midX + 10,
-        // y: midY + (p.randomGaussian() * variance),
-        y: midY + 10,
-      }
+  const moveNearby = (point, deviation) => ({
+    x: p.randomGaussian(point.x, point.z * deviation),
+    y: p.randomGaussian(point.y, point.z * deviation),
+    z: point.z,
+  })
 
-      // subdivide(points, { x: x1, y: y1 }, pN, depth - 1, variance / vdiv, vdiv)
-      points.push(pN)
-      // subdivide(points, pN, p2, depth - 1, variance / vdiv, vdiv)
-    }
-  }
+  const deform = (points, deviation) => points.map(point => moveNearby(point, deviation))
 
-  const deform = (points, depth, variance, vdiv) => {
+  const interpolate = (points, iterations = 1) => {
     const newPoints = []
 
-    for (let i = 0; i < points.length; i += 1) {
-      const p1 = points[i]
-      const p2 = points[i % points.length]
+    for (let iteration = 0; iteration < iterations; iteration += 1) {
+      for (let i = 0; i < points.length; i += 1) {
+        const p1 = points[i]
+        const p2 = points[(i + 1) % points.length]
+        const pMid = {
+          x: (p1.x + p2.x) / 2,
+          y: (p1.y + p2.y) / 2,
+          z: ((p1.z + p2.z) / 2) * 0.55 * p.random(0.5, 2.5),
+        }
 
-      newPoints.push(p1)
-      subdivide(newPoints, p1, p2, depth, variance, vdiv)
+        newPoints.push(p1)
+        newPoints.push(pMid)
+      }
     }
 
     return newPoints
   }
 
-  const RED = '#ec3637'
+  const drawPoly = (points) => {
+    p.beginShape()
+    points.forEach(v => p.vertex(v.x, v.y))
+    p.endShape(p.CLOSE)
+  }
+
   const radius = 100
-  const polygon = rPoly(0, 0, radius, 10)
-  const deformed = deform(polygon, 5, radius / 10, 2)
+  const baseShape = rPolygon(0, 0, radius, 10)
 
   p.setup = () => {
     p.createCanvas(canvas.offsetWidth, canvas.offsetHeight)
@@ -63,13 +64,23 @@ const sketch = (p) => {
 
   p.draw = () => {
     p.translate(p.width / 2, p.height / 2)
-    p.fill(RED)
+    p.fill(p.random(360), 80, 60, 0.01)
 
-    p.beginShape()
+    let polygon = baseShape
+    const iterations = 3
 
-    deformed.forEach(v => p.vertex(v.x, v.y))
+    for (let iteration = 0; iteration < iterations; iteration += 1) {
+      polygon = interpolate(polygon)
+      polygon = deform(polygon, 5)
+    }
 
-    p.endShape(p.CLOSE)
+    for (let layer = 0; layer < 30; layer += 1) {
+      let current = polygon
+      for (let deformation = 0; deformation < 5; deformation += 1) {
+        current = deform(current, 8)
+      }
+      drawPoly(current)
+    }
   }
 }
 
