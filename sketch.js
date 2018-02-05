@@ -51,8 +51,34 @@ const sketch = (p) => {
     p.endShape(p.CLOSE)
   }
 
-  const radius = 100
-  const baseShape = rPolygon(0, 0, radius, 10)
+  const drawDeformedPoly = (radius, offset) => {
+    const randomRadius = p.randomGaussian(radius, radius / 10)
+    const baseShape = rPolygon(0, 0, randomRadius, 10)
+    let polygon = baseShape
+
+    p.translate(p.width / 2, p.height / 2)
+    p.translate(offset.x, offset.y)
+    p.fill(p.random(360), 80, 60, 0.01)
+
+    const iterations = 3
+    for (let iteration = 0; iteration < iterations; iteration += 1) {
+      polygon = interpolate(polygon)
+      polygon = deform(polygon, 5)
+    }
+
+    const layers = 30
+    const deformations = 5
+    for (let layer = 0; layer < layers; layer += 1) {
+      let current = polygon
+      for (let deformation = 0; deformation < deformations; deformation += 1) {
+        current = deform(current, 8)
+      }
+      drawPoly(current)
+    }
+
+    p.resetMatrix()
+  }
+
 
   p.setup = () => {
     p.createCanvas(canvas.offsetWidth, canvas.offsetHeight)
@@ -63,24 +89,12 @@ const sketch = (p) => {
   }
 
   p.draw = () => {
-    p.translate(p.width / 2, p.height / 2)
-    p.fill(p.random(360), 80, 60, 0.01)
+    const radius = 100
+    const offset = radius * 0.7
 
-    let polygon = baseShape
-    const iterations = 3
-
-    for (let iteration = 0; iteration < iterations; iteration += 1) {
-      polygon = interpolate(polygon)
-      polygon = deform(polygon, 5)
-    }
-
-    for (let layer = 0; layer < 30; layer += 1) {
-      let current = polygon
-      for (let deformation = 0; deformation < 5; deformation += 1) {
-        current = deform(current, 8)
-      }
-      drawPoly(current)
-    }
+    drawDeformedPoly(radius, { x: -offset, y: offset })
+    drawDeformedPoly(radius, { x: offset, y: offset })
+    drawDeformedPoly(radius, { x: 0, y: -offset })
   }
 }
 
