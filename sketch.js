@@ -1,9 +1,12 @@
 const canvas = document.getElementById('canvas')
 
 const sketch = (p) => {
+  const scale = 10
+  const noiseScale = 0.01
+
   p.setup = () => {
-    p.createCanvas(window.innerWidth, window.innerWidth)
-    p.noStroke()
+    p.createCanvas(400, 400)
+    // p.noStroke()
     p.colorMode(p.RGB)
     p.blendMode(p.MULTIPLY)
     p.noLoop()
@@ -11,20 +14,23 @@ const sketch = (p) => {
   }
 
   p.draw = () => {
-    p.loadPixels()
-    for (let y = 0; y < p.height; y += 1) {
-      for (let x = 0; x < p.width; x += 1) {
-        const r = p.noise(x * 0.01, y * 0.01) * 255
-        const i = ((y * p.width) + x) * 4
+    for (let y = 0; y < p.height; y += scale) {
+      for (let x = 0; x < p.width; x += scale) {
+        const r = p.noise(
+          x * noiseScale,
+          y * noiseScale,
+        )
+        const vector = p5.Vector.fromAngle(r * p.TWO_PI)
 
+        p.push()
 
-        p.pixels[i + 0] = r
-        p.pixels[i + 1] = r
-        p.pixels[i + 2] = r
-        p.pixels[i + 3] = 255
+        p.translate(x + (scale / 2), y + (scale / 2))
+        p.rotate(vector.heading())
+        p.line(0, 0, scale / 2, 0)
+
+        p.pop()
       }
     }
-    p.updatePixels()
   }
 }
 
