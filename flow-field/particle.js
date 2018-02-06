@@ -1,4 +1,4 @@
-const MAX_VELOCITY = 4
+const MAX_VELOCITY = 3
 const INI_VELOCITY = 2
 
 class Particle {

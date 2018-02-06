@@ -13,7 +13,7 @@ const buildField = (p, { width, height, scale = 20 }) => {
       const r = p.noise(x * noiseScale, y * noiseScale)
       const angle = p.radians((r * angleScale * 360) + (-45 + angleHeading))
       const vector = p5.Vector.fromAngle(angle)
-      vector.setMag(0.01)
+      vector.setMag(0.1)
 
       field[index] = vector
     }
