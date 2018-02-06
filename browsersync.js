@@ -1,8 +1,8 @@
 module.exports = {
   server: true,
   files: [
-    '*.html',
-    '*.js',
+    '**/*.html',
+    '**/*.js',
   ],
   port: 8080,
   ui: false,
