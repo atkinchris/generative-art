@@ -3,12 +3,12 @@ const buildField = (p, { width, height, scale = 10 }) => {
 
   const widthScaled = Math.floor(width / scale)
   const heightScaled = Math.floor(height / scale)
-  const noiseScale = 0.01 * scale
+  const noiseScale = 0.005 * scale
 
   for (let y = 0; y < heightScaled; y += 1) {
     for (let x = 0; x < widthScaled; x += 1) {
       const index = (widthScaled * y) + x
-      const r = p.noise(x * noiseScale, y * noiseScale)
+      const r = p.noise(-x * noiseScale, y * noiseScale)
       const vector = p5.Vector.fromAngle(r * p.TWO_PI)
 
       field[index] = vector
@@ -30,8 +30,13 @@ const buildField = (p, { width, height, scale = 10 }) => {
     p.pop()
   })
 
+  const getVector = ({ x, y }) => field[
+    Math.floor(y / scale) + Math.floor(x / scale)
+  ]
+
   return {
     draw,
+    getVector,
   }
 }
 
