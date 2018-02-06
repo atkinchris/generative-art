@@ -1,9 +1,9 @@
-const buildField = (p, { width, height, scale = 10 }) => {
+const buildField = (p, { width, height, scale = 20 }) => {
   const field = []
 
   const widthScaled = Math.floor(width / scale)
   const heightScaled = Math.floor(height / scale)
-  const noiseScale = 0.005 * scale
+  const noiseScale = 0.008 * scale
 
   for (let y = 0; y < heightScaled; y += 1) {
     for (let x = 0; x < widthScaled; x += 1) {
@@ -25,7 +25,16 @@ const buildField = (p, { width, height, scale = 10 }) => {
 
     p.translate(canvasX, canvasY)
     p.rotate(vector.heading())
+    p.strokeWeight(length * 0.2)
     p.line(0, 0, length, 0)
+    p.triangle(
+      length / 2,
+      length * 0.3,
+      length,
+      0,
+      length / 2,
+      length * -0.3,
+    )
 
     p.pop()
   })
