@@ -1,10 +1,14 @@
+const MAX_VELOCITY = 4
+const INI_VELOCITY = 2
+
 class Particle {
   constructor(p, x, y) {
     this.p = p
     this.position = p.createVector(x, y)
-    this.velocity = p.createVector(0, 0)
     this.acceleration = p.createVector(0, 0)
-    this.maxspeed = 4
+
+    this.velocity = p5.Vector.fromAngle(0)
+    this.velocity.setMag(INI_VELOCITY)
 
     this.previousPosition = this.position
   }
@@ -17,7 +21,7 @@ class Particle {
 
     this.acceleration.add(force)
     this.velocity.add(this.acceleration)
-    this.velocity.limit(this.maxspeed)
+    this.velocity.limit(MAX_VELOCITY)
     this.position.add(this.velocity)
     this.acceleration.mult(0)
   }
