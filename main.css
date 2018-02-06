@@ -1,0 +1,14 @@
+html,
+body,
+#canvas {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #f9f8f4;
+}
+
+#canvas {
+  margin: 20px;
+}
