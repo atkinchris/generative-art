@@ -1,4 +1,4 @@
-const canvas = document.getElementById('canvas')
+const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
   const rPolygon = (x, y, radius, nsides) => {
@@ -84,7 +84,7 @@ const sketch = (p) => {
 
 
   p.setup = () => {
-    p.createCanvas(canvas.offsetWidth, canvas.offsetHeight)
+    p.createCanvas(400, 400)
     p.noStroke()
     p.colorMode(p.HSB)
     p.blendMode(p.MULTIPLY)

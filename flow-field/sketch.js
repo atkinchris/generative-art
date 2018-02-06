@@ -1,5 +1,5 @@
 /* globals buildField: false, Particle: false */
-const canvas = document.getElementById('canvas')
+const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
   const width = 400

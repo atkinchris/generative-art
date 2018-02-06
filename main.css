@@ -1,6 +1,6 @@
 html,
 body,
-#canvas {
+.container {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -9,6 +9,16 @@ body,
   background: #f9f8f4;
 }
 
-#canvas {
-  margin: 20px;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.link {
+  display: block;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: white;
 }
