@@ -1,4 +1,4 @@
-const MAX_VELOCITY = 3
+const MAX_VELOCITY = 2
 const INI_VELOCITY = 2
 
 class Particle {
@@ -30,7 +30,8 @@ class Particle {
     const { p } = this
 
     p.push()
-    p.fill(1)
+    p.stroke(0, 0.25)
+    p.strokeWeight(1)
     p.line(
       this.previousPosition.x,
       this.previousPosition.y,

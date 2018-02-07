@@ -4,13 +4,12 @@ const canvas = document.querySelector('.container')
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const iterations = 400
-  const particleSpacing = 8
-  const particleOverflow = 20
+  const particleSpacing = 4
+  const particleOverflow = 200
 
   const field = buildField(p, { width, height })
   const particleCount = Math.floor(height / particleSpacing) + (particleOverflow * 2)
-  const particles = Array.from({ length: particleCount }).map((_, i) => {
+  let particles = Array.from({ length: particleCount }).map((_, i) => {
     const x = 0
     const y = (i - particleOverflow) * particleSpacing
     return new Particle(p, x, y)
@@ -20,20 +19,29 @@ const sketch = (p) => {
     p.createCanvas(width, height)
     p.colorMode(p.HSB)
     p.blendMode(p.MULTIPLY)
-    p.noLoop()
+    // p.noLoop()
   }
 
   p.draw = () => {
-    field.draw()
+    // field.draw()
 
-    particles.forEach((particle) => {
-      for (let i = 0; i < iterations; i += 1) {
-        const force = field.getVector(particle.position)
+    particles = particles.filter((particle) => {
+      const force = field.getVector(particle.position)
 
-        particle.update(force)
-        particle.draw()
+      particle.update(force)
+
+      if (particle.position.x > p.width) {
+        return false
       }
+
+      particle.draw()
+      return true
     })
+
+    if (particles.length <= 0) {
+      console.log('Stopping loop.')
+      p.noLoop()
+    }
   }
 }
 
