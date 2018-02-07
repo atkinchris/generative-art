@@ -7,7 +7,7 @@ class Particle {
     this.position = p.createVector(x, y)
     this.acceleration = p.createVector(0, 0)
 
-    this.velocity = p5.Vector.fromAngle(0)
+    this.velocity = p5.Vector.fromAngle(p.random(p.HALF_PI))
     this.velocity.setMag(INI_VELOCITY)
 
     this.previousPosition = this.position
@@ -30,7 +30,7 @@ class Particle {
     const { p } = this
 
     p.push()
-    p.stroke(0, 0.25)
+    p.stroke(0, 0.09)
     p.strokeWeight(1)
     p.line(
       this.previousPosition.x,

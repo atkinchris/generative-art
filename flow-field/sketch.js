@@ -4,14 +4,12 @@ const canvas = document.querySelector('.container')
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const particleSpacing = 4
-  const particleOverflow = 200
+  const particleCount = 1000
 
   const field = buildField(p, { width, height })
-  const particleCount = Math.floor(height / particleSpacing) + (particleOverflow * 2)
-  let particles = Array.from({ length: particleCount }).map((_, i) => {
+  let particles = Array.from({ length: particleCount }).map(() => {
     const x = 0
-    const y = (i - particleOverflow) * particleSpacing
+    const y = p.randomGaussian(height / 2, height / 6)
     return new Particle(p, x, y)
   })
 
