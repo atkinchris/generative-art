@@ -8,20 +8,20 @@ const sketch = (p) => {
   const particleLife = 20
   const particleCount = 3000
   const paricleOrigin = {
-    x: width * 0.75,
+    x: width * 0.25,
     y: height * 0.75,
   }
   const particleSpread = {
-    x: width * 0.25,
-    y: height * 0.25,
+    x: width * 0.3,
+    y: height * 0.2,
   }
 
   const field = buildField(p, { width, height })
-  let particles = Array.from({ length: particleCount }).map(() => (
+  let particles = Array.from({ length: particleCount }).map((_, i) => (
     new Particle(p, {
-      x: p.randomGaussian(paricleOrigin.x, particleSpread.x),
-      y: p.randomGaussian(paricleOrigin.y, particleSpread.y),
-      life: p.randomGaussian(particleLife),
+      x: p.randomGaussian(paricleOrigin.x + (i / 100), particleSpread.x),
+      y: p.randomGaussian(paricleOrigin.y + (i / 100), particleSpread.y),
+      life: particleLife,
     })
   ))
 
