@@ -4,18 +4,26 @@ const canvas = document.querySelector('.container')
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const particleCount = 2000
-  const center = {
-    x: width / 2,
-    y: width / 2,
+  const center = { x: width / 2, y: width / 2 }
+  const particleLife = 20
+  const particleCount = 3000
+  const paricleOrigin = {
+    x: width * 0.75,
+    y: height * 0.75,
+  }
+  const particleSpread = {
+    x: width * 0.25,
+    y: height * 0.25,
   }
 
   const field = buildField(p, { width, height })
-  let particles = Array.from({ length: particleCount }).map(() => {
-    const x = p.randomGaussian(width / 2, width / 4)
-    const y = p.randomGaussian(height / 2, height / 4)
-    return new Particle(p, x, y)
-  })
+  let particles = Array.from({ length: particleCount }).map(() => (
+    new Particle(p, {
+      x: p.randomGaussian(paricleOrigin.x, particleSpread.x),
+      y: p.randomGaussian(paricleOrigin.y, particleSpread.y),
+      life: p.randomGaussian(particleLife),
+    })
+  ))
 
   p.setup = () => {
     p.createCanvas(width, height)

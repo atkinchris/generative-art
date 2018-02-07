@@ -1,7 +1,7 @@
 const buildField = (p, { width, height, scale = 1 }) => {
   const field = []
 
-  const angleHeading = 0
+  const angleHeading = 315
   const angleScale = 0.25
   const noiseScale = 0.007 * scale
   const widthScaled = Math.floor(width / scale)

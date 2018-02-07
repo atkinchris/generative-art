@@ -1,9 +1,9 @@
 const MAX_VELOCITY = 2
 
 class Particle {
-  constructor(p, x, y) {
+  constructor(p, { x, y, life }) {
     this.p = p
-    this.life = 20
+    this.life = life
     this.position = p.createVector(x, y)
     this.acceleration = p.createVector(0, 0)
     this.velocity = p.createVector(0, 0)
