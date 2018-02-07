@@ -1,14 +1,12 @@
 const MAX_VELOCITY = 2
-const INI_VELOCITY = 2
 
 class Particle {
   constructor(p, x, y) {
     this.p = p
+    this.life = 20
     this.position = p.createVector(x, y)
     this.acceleration = p.createVector(0, 0)
-
-    this.velocity = p5.Vector.fromAngle(p.random(p.HALF_PI))
-    this.velocity.setMag(INI_VELOCITY)
+    this.velocity = p.createVector(0, 0)
 
     this.previousPosition = this.position
   }
@@ -24,6 +22,19 @@ class Particle {
     this.velocity.limit(MAX_VELOCITY)
     this.position.add(this.velocity)
     this.acceleration.mult(0)
+
+    this.life -= 1
+  }
+
+  isDead() {
+    return this.life <= 0
+  }
+
+  distanceFrom({ x, y }) {
+    return Math.sqrt((
+      ((x - this.position.x) ** 2) +
+      ((y - this.position.y) ** 2)
+    ))
   }
 
   draw() {

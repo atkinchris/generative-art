@@ -4,12 +4,16 @@ const canvas = document.querySelector('.container')
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const particleCount = 1000
+  const particleCount = 2000
+  const center = {
+    x: width / 2,
+    y: width / 2,
+  }
 
   const field = buildField(p, { width, height })
   let particles = Array.from({ length: particleCount }).map(() => {
-    const x = 0
-    const y = p.randomGaussian(height / 2, height / 6)
+    const x = p.randomGaussian(width / 2, width / 4)
+    const y = p.randomGaussian(height / 2, height / 4)
     return new Particle(p, x, y)
   })
 
@@ -28,7 +32,10 @@ const sketch = (p) => {
 
       particle.update(force)
 
-      if (particle.position.x > p.width) {
+      if (
+        particle.distanceFrom(center) > 150 ||
+        particle.isDead()
+      ) {
         return false
       }
 
