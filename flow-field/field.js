@@ -1,29 +1,19 @@
-const buildField = (p, { width, height, scale = 1 }) => {
-  const field = []
-
+const buildField = (p, { width, height, scale = 20 }) => {
+  const fieldStrength = 0.35
   const angleHeading = 315
   const angleScale = 0.5
-  const noiseScale = 0.007 * scale
-  const widthScaled = Math.floor(width / scale)
-  const heightScaled = Math.floor(height / scale)
+  const noiseScale = 0.07
 
-  for (let y = 0; y < heightScaled; y += 1) {
-    for (let x = 0; x < widthScaled; x += 1) {
-      const index = (widthScaled * y) + x
-      const r = p.noise(x * noiseScale, y * noiseScale)
-      const angle = p.radians((r * angleScale * 360) + (-45 + angleHeading))
-      const vector = p5.Vector.fromAngle(angle)
-      vector.setMag(0.35)
+  const getVector = (x, y) => {
+    const r = p.noise(x * noiseScale, y * noiseScale)
+    const angle = p.radians((r * angleScale * 360) + (-45 + angleHeading))
+    const vector = p5.Vector.fromAngle(angle)
+    vector.setMag(fieldStrength)
 
-      field[index] = vector
-    }
+    return vector
   }
 
-  const draw = () => field.forEach((vector, index) => {
-    const x = index % widthScaled
-    const y = Math.floor(index / heightScaled)
-    const canvasX = (x * scale) + (scale / 2)
-    const canvasY = (y * scale) + (scale / 2)
+  const drawVector = (vector, x, y) => {
     const length = 0.5 * scale
     p.push()
 
@@ -31,7 +21,7 @@ const buildField = (p, { width, height, scale = 1 }) => {
     p.fill(50, 0.5)
     p.strokeWeight(length * 0.2)
 
-    p.translate(canvasX, canvasY)
+    p.translate(x, y)
     p.rotate(vector.heading())
     p.line(0, 0, length, 0)
     p.triangle(
@@ -44,11 +34,16 @@ const buildField = (p, { width, height, scale = 1 }) => {
     )
 
     p.pop()
-  })
+  }
 
-  const getVector = ({ x, y }) => field[
-    Math.floor(y / scale) + Math.floor(x / scale)
-  ]
+  const draw = () => {
+    for (let y = 0; y < height; y += scale) {
+      for (let x = 0; x < width; x += scale) {
+        const vector = getVector(x, y)
+        drawVector(vector, x, y)
+      }
+    }
+  }
 
   return {
     draw,

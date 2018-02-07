@@ -36,7 +36,8 @@ const sketch = (p) => {
     // field.draw()
 
     particles = particles.filter((particle) => {
-      const force = field.getVector(particle.position)
+      const { x, y } = particle.position
+      const force = field.getVector(x, y)
 
       particle.update(force)
 
