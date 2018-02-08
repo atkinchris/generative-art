@@ -7,6 +7,13 @@ body,
   width: 100%;
   overflow: hidden;
   background: #f9f8f4;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .container {
@@ -17,8 +24,36 @@ body,
 }
 
 .link {
-  display: block;
-  margin: 1rem;
   padding: 1rem;
   background-color: white;
+}
+
+.link:link,
+.link:visited {
+  text-decoration: none;
+}
+
+.link img {
+  width: 100%;
+}
+
+.link span {
+  margin-top: 1rem;
+}
+
+.grid {
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-left: 1rem
+}
+
+.grid-item {
+  width: 20%;
+  min-width: 200px;
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
