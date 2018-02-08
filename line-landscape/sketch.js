@@ -7,22 +7,25 @@ const sketch = (p) => {
   const segmentWidth = 15
 
   const drawLine = (y) => {
+    const yN = (y / height)
     p.push()
 
-    p.fill('#f9f8f4')
+    // p.fill(yN * 255, 32, 255)
+    // p.stroke(yN * 255, 128, 64)
     p.beginShape()
 
     const yOff = p.noise(0, y) * 10
     p.vertex(-1, height + 1)
     p.vertex(-1, y + yOff)
 
-    for (let x = 0; x <= width + segmentWidth; x += segmentWidth) {
-      const offset = Math.abs(p.noise(x, y) * 15)
+    if (p.noise(y * 0.1) < 0.5) {
+      const point = p.random() * yN > 0.7
+        ? p.curveVertex.bind(p)
+        : p.vertex.bind(p)
 
-      if (p.noise(y) > 0.2) {
-        p.curveVertex(x, y + offset + yOff)
-      } else {
-        p.vertex(x, y + offset + yOff)
+      for (let x = 0; x <= width + segmentWidth; x += segmentWidth) {
+        const offset = Math.abs(p.noise(x, y) * 15)
+        point(x, y + offset + yOff)
       }
     }
 
@@ -33,9 +36,11 @@ const sketch = (p) => {
     p.pop()
   }
 
+
   p.setup = () => {
     p.createCanvas(width, height)
     p.colorMode(p.HSB)
+    p.blendMode(p.BLEND)
     p.noLoop()
   }
 
