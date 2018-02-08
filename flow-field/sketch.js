@@ -6,7 +6,7 @@ const sketch = (p) => {
   const height = 400
   const radius = 200
   const center = { x: width / 2, y: width / 2 }
-  const particleLife = 15
+  const particleLife = 10
   const particleCount = 10000
   const particleOrigin = {
     x: width * 0.5,
@@ -16,11 +16,11 @@ const sketch = (p) => {
   const gaussian = value => Math.abs(p.randomGaussian()) * value
 
   const field = buildField(p, { width, height })
-  let particles = Array.from({ length: particleCount }).map((_, i) => (
+  let particles = Array.from({ length: particleCount }).map(() => (
     new Particle(p, {
       x: gaussian(particleOrigin.x),
       y: height - gaussian(particleOrigin.y),
-      life: particleLife,
+      life: p.randomGaussian(particleLife),
     })
   ))
 

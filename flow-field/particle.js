@@ -41,7 +41,7 @@ class Particle {
     const { p } = this
 
     p.push()
-    p.stroke(0, 0.1)
+    p.stroke(0, 0.3)
     p.strokeWeight(1)
     p.line(
       this.previousPosition.x,
