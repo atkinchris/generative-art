@@ -2,7 +2,7 @@ const buildField = (p, { width, height, scale = 20 }) => {
   const fieldStrength = 0.35
   const angleHeading = 315
   const angleScale = 0.5
-  const noiseScale = 0.07
+  const noiseScale = 0.007
 
   const getVector = (x, y) => {
     const r = p.noise(x * noiseScale, y * noiseScale)
