@@ -27,7 +27,7 @@ const sketch = (p) => {
   p.setup = () => {
     p.createCanvas(width, height)
     p.colorMode(p.HSB)
-    p.blendMode(p.MULTIPLY)
+    // p.blendMode(p.MULTIPLY)
     // p.noLoop()
   }
 
