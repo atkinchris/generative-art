@@ -19,7 +19,7 @@ const sketch = (p) => {
   let particles = Array.from({ length: particleCount }).map((_, i) => (
     new Particle(p, {
       x: gaussian(particleOrigin.x),
-      y: gaussian(particleOrigin.y),
+      y: height - gaussian(particleOrigin.y),
       life: particleLife,
     })
   ))
@@ -38,8 +38,6 @@ const sketch = (p) => {
       const { x, y } = particle.position
       const force = field.getVector(x, y)
 
-      particle.update(force)
-
       if (
         particle.distanceFrom(center) > radius ||
         particle.isDead()
@@ -47,6 +45,7 @@ const sketch = (p) => {
         return false
       }
 
+      particle.update(force)
       particle.draw()
       return true
     })

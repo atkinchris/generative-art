@@ -1,6 +1,6 @@
 const buildField = (p, { width, height, scale = 20 }) => {
   const fieldStrength = 0.35
-  const angleHeading = 315
+  const angleHeading = 270
   const angleScale = 0.5
   const noiseScale = 0.007
 
