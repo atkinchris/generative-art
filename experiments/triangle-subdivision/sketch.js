@@ -11,26 +11,45 @@ const sketch = (p) => {
   ))
 
   const subDivide = (points) => {
-    if (distance(points) < p.random(width / 10, width / 20)) {
+    if (distance(points) < width / 11) {
       stack.push(points)
       return false
     }
 
-    const midPoint = [
+    const hLength = distance([points[0], points[1], points[2], points[3]])
+    const hVector = p5.Vector.sub(
+      p.createVector(points[2], points[3]),
+      p.createVector(points[0], points[1]),
+    ).normalize()
+    hVector.setMag(Math.abs(p.randomGaussian(hLength / 6)))
+
+    const lengthA = distance([points[0], points[1], points[4], points[5]])
+    const lengthB = distance([points[2], points[3], points[4], points[5]])
+    const midPoint = p.createVector(
       (points[0] + points[2]) / 2,
       (points[1] + points[3]) / 2,
-    ]
+    )
+
+    if (lengthA === lengthB) {
+      hVector.mult(p.randomGaussian())
+    }
+
+    if (lengthA < lengthB) {
+      midPoint.sub(hVector)
+    } else {
+      midPoint.add(hVector)
+    }
 
     stack.push([
       points[4], points[5],
       points[0], points[1],
-      midPoint[0], midPoint[1],
+      midPoint.x, midPoint.y,
     ])
 
     stack.push([
       points[4], points[5],
       points[2], points[3],
-      midPoint[0], midPoint[1],
+      midPoint.x, midPoint.y,
     ])
 
     return true
