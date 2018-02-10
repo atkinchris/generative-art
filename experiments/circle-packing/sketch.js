@@ -4,6 +4,11 @@ const sketch = (p) => {
   const width = 400
   const height = 400
   const circles = []
+  const center = {
+    x: width / 2,
+    y: height / 2,
+  }
+  const canvasRadius = width / 2
   const config = [
     { max: 15, radius: 30, colour: '#48466D' },
     { max: 50, radius: 20, colour: '#3D84A8' },
@@ -27,8 +32,9 @@ const sketch = (p) => {
         colour,
       }
       const test = circle => distance(circle, newCircle) < (radius + circle.radius) / 2
+      const withinCanvas = distance(center, newCircle) < canvasRadius
 
-      if (!circles.some(test)) {
+      if (withinCanvas && !circles.some(test)) {
         circles.push(newCircle)
         count += 1
       } else {
