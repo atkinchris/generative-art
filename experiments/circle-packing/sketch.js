@@ -15,7 +15,7 @@ const sketch = (p) => {
     { radius: 10, saturation: 0.4, max: 200 },
     { radius: 5, saturation: 0.5 },
   ]
-  const DEFAULT_HUE = 200
+  const DEFAULT_HUE = p.random(128, 196)
   const DEFAULT_BRIGHTNESS = 96
 
   const distance = (a, b) => Math.sqrt((
