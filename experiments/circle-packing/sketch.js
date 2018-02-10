@@ -1,5 +1,27 @@
 const canvas = document.querySelector('.container')
 
+class Rect {
+  constructor(x, y, width, height) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+  }
+
+  contains(point) {
+    const { x, y, width, height } = this
+
+    return (
+      (point.x - point.radius <= x + width && point.x + point.radius >= x) &&
+      (point.y - point.radius <= y + height && point.y + point.radius >= y)
+    )
+  }
+}
+
+const distance = (a, b) => Math.sqrt((
+  ((b.x - a.x) ** 2) + ((b.y - a.y) ** 2)
+))
+
 const sketch = (p) => {
   const width = 400
   const height = 400
@@ -10,17 +32,15 @@ const sketch = (p) => {
   }
   const canvasRadius = width / 2
   const groups = [
-    { radius: 30, saturation: 0.2, max: 20 },
-    { radius: 20, saturation: 0.3, max: 50 },
-    { radius: 10, saturation: 0.4, max: 200 },
-    { radius: 5, saturation: 0.5 },
+    { radius: 16, saturation: 0.1, max: 20 },
+    { radius: 12, saturation: 0.4, max: 50 },
+    { radius: 8, saturation: 0.6, max: 200 },
+    { radius: 6, saturation: 0.2 },
   ]
   const DEFAULT_HUE = p.random(128, 196)
-  const DEFAULT_BRIGHTNESS = 96
+  const DEFAULT_BRIGHTNESS = 255
 
-  const distance = (a, b) => Math.sqrt((
-    ((b.x - a.x) ** 2) + ((b.y - a.y) ** 2)
-  ))
+  const rect = new Rect(150, 150, 100, 100)
 
   const packCircles = (config) => {
     const {
@@ -44,6 +64,11 @@ const sketch = (p) => {
       }
       const test = circle => distance(circle, newCircle) < (radius + circle.radius) / 2
       const withinCanvas = distance(center, newCircle) < canvasRadius - (radius / 2)
+      const withinRect = rect.contains(newCircle)
+
+      if (withinRect) {
+        newCircle.hue -= 64
+      }
 
       if (withinCanvas && !circles.some(test)) {
         circles.push(newCircle)
