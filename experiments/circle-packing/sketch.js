@@ -40,7 +40,11 @@ const sketch = (p) => {
   const DEFAULT_HUE = p.random(128, 196)
   const DEFAULT_BRIGHTNESS = 255
 
-  const rect = new Rect(150, 150, 100, 100)
+  const rects = [
+    new Rect(120, 100, 50, 180),
+    new Rect(120, 100, 160, 50),
+    new Rect(120, 250, 160, 50),
+  ]
 
   const packCircles = (config) => {
     const {
@@ -64,7 +68,7 @@ const sketch = (p) => {
       }
       const test = circle => distance(circle, newCircle) < (radius + circle.radius) / 2
       const withinCanvas = distance(center, newCircle) < canvasRadius - (radius / 2)
-      const withinRect = rect.contains(newCircle)
+      const withinRect = rects.some(rect => rect.contains(newCircle))
 
       if (withinRect) {
         newCircle.hue -= 64
