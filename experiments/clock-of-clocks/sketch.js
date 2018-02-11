@@ -1,11 +1,13 @@
 const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
-  const width = 400
-  const height = 400
+  const width = Math.min(window.innerWidth, window.innerHeight) * 0.9
+  const height = width
   const hours = 12
-  const handLength = 12
+  const handLength = width / 40
   const hoursLength = handLength * 0.65
+  const handWidth = handLength / 6
+  const hoursWidth = hoursLength / 3
   const center = {
     x: width / 2,
     y: width / 2,
@@ -23,7 +25,7 @@ const sketch = (p) => {
     const angle = hour * (p.TWO_PI / hours)
     p.push()
     p.translate(x, y)
-    p.strokeWeight(2)
+    p.strokeWeight(handWidth)
     p.line(0, 0, 0, -handLength)
     p.rotate(angle)
     p.line(0, 0, hoursLength, 0)
@@ -51,7 +53,7 @@ const sketch = (p) => {
     const length = minutes ? handLength : hoursLength
 
     p.push()
-    p.strokeWeight(6)
+    p.strokeWeight(minutes ? handWidth * 5 : hoursWidth * 5)
     p.translate(center.x, center.y)
     p.rotate(angle)
     p.line(0, 20, 0, -length * 10)
@@ -63,6 +65,9 @@ const sketch = (p) => {
 
     drawHand(time.getHours() % 12)
     drawHand(time.getMinutes(), true)
+
+    p.fill('black')
+    p.ellipse(center.x, center.y, handLength * 1.5)
   }
 
   p.setup = () => {
