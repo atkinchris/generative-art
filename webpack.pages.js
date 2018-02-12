@@ -13,6 +13,7 @@ const pages = [
   { name: 'line-landscape', title: 'Line Landscape' },
   { name: 'clock-of-clocks', title: 'Clock of Clocks' },
   { name: 'concentric-circles', title: 'Concentric Circles' },
+  { name: 'flow-field', title: 'Perlin Flow Field' },
 ]
 
 const buildPages = ({ SRC }) => {

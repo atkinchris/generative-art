@@ -51,4 +51,4 @@ const buildField = (p, { width, height, scale = 20 }) => {
   }
 }
 
-window.buildField = buildField
+export default buildField

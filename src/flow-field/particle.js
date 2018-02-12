@@ -53,4 +53,4 @@ class Particle {
   }
 }
 
-window.Particle = Particle
+export default Particle

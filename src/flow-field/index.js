@@ -1,4 +1,6 @@
-/* globals buildField: false, Particle: false */
+import buildField from './field'
+import Particle from './particle'
+
 const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
