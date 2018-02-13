@@ -90,8 +90,11 @@ const sketch = (p) => {
   }
 
   p.draw = () => {
-    // stack.forEach(drawTriangle)
-    drawTriangle(stack.shift())
+    if (stack.length > 0) {
+      drawTriangle(stack.shift())
+    } else {
+      p.noLoop()
+    }
   }
 }
 
