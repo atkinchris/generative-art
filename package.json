@@ -29,5 +29,8 @@
     "style-loader": "^0.20.1",
     "webpack": "^3.11.0",
     "webpack-merge": "^4.1.1"
+  },
+  "dependencies": {
+    "vectorize-text": "^3.0.2"
   }
 }

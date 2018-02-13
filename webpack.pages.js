@@ -14,6 +14,7 @@ const pages = [
   { name: 'clock-of-clocks', title: 'Clock of Clocks' },
   { name: 'concentric-circles', title: 'Concentric Circles' },
   { name: 'flow-field', title: 'Perlin Flow Field' },
+  { name: 'text-pathing', title: 'Text Pathing' },
 ]
 
 const buildPages = ({ SRC }) => {
