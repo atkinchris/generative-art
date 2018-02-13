@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 27);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */,
-/* 1 */
+/******/ ({
+
+/***/ 27:
 /***/ (function(module, exports) {
 
 const canvas = document.querySelector('.container')
@@ -178,4 +178,5 @@ new p5(sketch, canvas) // eslint-disable-line no-new
 
 
 /***/ })
-/******/ ]);
+
+/******/ });
