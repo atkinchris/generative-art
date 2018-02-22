@@ -15,6 +15,7 @@ const pages = [
   { name: 'concentric-circles', title: 'Concentric Circles' },
   { name: 'flow-field', title: 'Perlin Flow Field' },
   { name: 'text-pathing', title: 'Text Pathing' },
+  { name: 'grid-walk', title: 'Grid Walk' },
 ]
 
 const buildPages = ({ SRC }) => {
