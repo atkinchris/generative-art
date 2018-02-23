@@ -8,8 +8,10 @@ const sketch = (p) => {
   const width = 400
   const height = 400
   const gridSize = 6
+  const maxAttempts = 2000
+  const maxAdjacents = 2
+  const passes = 10
   const points = []
-  const discard = []
   const lines = []
 
   const distanceSqFrom = (a, b) => {
@@ -18,7 +20,7 @@ const sketch = (p) => {
     return Math.round(dX + dY)
   }
 
-  const buildLine = (list) => {
+  const buildLine = (list, discard) => {
     knuthShuffle(list)
     const aIndex = 0
     const bIndex = list.findIndex(point => distanceSqFrom(list[0], point) === gridSize ** 2)
@@ -73,14 +75,12 @@ const sketch = (p) => {
 
     points.forEach(({ x, y }) => p.point(x, y))
 
-    const passes = 20
-
     for (let pass = 0; pass < passes; pass += 1) {
-      const maxAttempts = 2000
+      const discard = []
       let attempts = 0
 
       while (attempts < maxAttempts) {
-        const line = buildLine(points)
+        const line = buildLine(points, discard)
 
         if (line) {
           lines.push(line)
@@ -90,11 +90,10 @@ const sketch = (p) => {
       }
 
       discard.forEach((point) => {
-        if (point.adjacents < 2) {
+        if (point.adjacents < maxAdjacents) {
           points.push(point)
         }
       })
-      discard.length = 0
     }
   }
 
