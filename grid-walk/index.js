@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 102);
+/******/ 	return __webpack_require__(__webpack_require__.s = 104);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -16156,34 +16156,175 @@ function trimLeaves(edges, positions) {
 /* 99 */,
 /* 100 */,
 /* 101 */,
-/* 102 */
+/* 102 */,
+/* 103 */,
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vectorize_text__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__triangle__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_knuth_shuffle__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_knuth_shuffle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_knuth_shuffle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__buildText__ = __webpack_require__(106);
+
 
 
 
 const canvas = document.querySelector('.container')
 
-const distance = (a, b) => Math.sqrt((
-  ((b.x - a.x) ** 2) + ((b.y - a.y) ** 2)
-))
-
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const circles = []
-  const center = {
-    x: width / 2,
-    y: height / 2,
+  const gridSize = 6
+  const maxAttempts = 1000
+  const maxAdjacents = 2
+  const passes = 3
+  const points = []
+  const lines = []
+
+  const distanceSqFrom = (a, b) => {
+    const dX = (a.x - b.x) ** 2
+    const dY = (a.y - b.y) ** 2
+    return Math.round(dX + dY)
   }
-  const canvasRadius = width / 2
-  const text = 'Chris'
-  const { positions, cells } = __WEBPACK_IMPORTED_MODULE_0_vectorize_text___default()('CHRIS', {
+
+  const buildLine = (list, discard) => {
+    Object(__WEBPACK_IMPORTED_MODULE_0_knuth_shuffle__["knuthShuffle"])(list)
+    const aIndex = 0
+    const bIndex = list.findIndex(point => distanceSqFrom(list[0], point) === gridSize ** 2)
+
+    if (bIndex === -1) return null
+
+    const b = list.splice(bIndex, 1)[0]
+    const a = list.splice(aIndex, 1)[0]
+
+    b.adjacents += 1
+    a.adjacents += 1
+    discard.push(a)
+    discard.push(b)
+
+    const colour = ((a.y / height) * 96) + 128
+
+    return {
+      x1: a.x,
+      x2: b.x,
+      y1: a.y,
+      y2: b.y,
+      colour,
+    }
+  }
+
+  p.setup = () => {
+    console.time('Setup')
+    p.createCanvas(width, height)
+    p.noFill()
+    p.noLoop()
+    p.colorMode(p.HSB, 255)
+
+    const inText = Object(__WEBPACK_IMPORTED_MODULE_1__buildText__["a" /* default */])(width, height, 'Chris')
+
+    const rowHeight = gridSize
+    const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
+    let offset = false
+
+    for (let x = 0; x <= width; x += columnWidth) {
+      const yOffset = offset ? gridSize / 2 : 0
+      offset = !offset
+
+      for (let y = yOffset; y < height; y += rowHeight) {
+        const point = { x, y, adjacents: 0 }
+
+        if (!inText(point)) {
+          points.push(point)
+        }
+      }
+    }
+
+    for (let pass = 0; pass < passes; pass += 1) {
+      const discard = []
+      let attempts = 0
+
+      while (attempts < maxAttempts) {
+        const line = buildLine(points, discard)
+
+        if (line) {
+          lines.push(line)
+        } else {
+          attempts += 1
+        }
+      }
+
+      discard.forEach((point) => {
+        if (point.adjacents < maxAdjacents) {
+          points.push(point)
+        }
+      })
+    }
+
+    console.timeEnd('Setup')
+  }
+
+  p.draw = () => {
+    lines.forEach((line) => {
+      p.stroke(line.colour, 255, 255)
+      p.line(line.x1, line.y1, line.x2, line.y2)
+    })
+  }
+}
+
+new p5(sketch, canvas) // eslint-disable-line no-new
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/*jshint -W054 */
+(function (exports) {
+  'use strict';
+
+  // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  function shuffle(array) {
+    var currentIndex = array.length
+      , temporaryValue
+      , randomIndex
+      ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  exports.knuthShuffle = shuffle;
+}('undefined' !== typeof exports && exports || 'undefined' !== typeof window && window || global));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+
+/***/ }),
+/* 106 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vectorize_text__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__triangle__ = __webpack_require__(107);
+
+
+
+
+const buildText = (width, height, text) => {
+  const { positions, cells } = __WEBPACK_IMPORTED_MODULE_0_vectorize_text___default()(text.toUpperCase(), {
     font: 'Sans-serif',
     triangles: true,
     width: width * 0.75,
@@ -16191,7 +16332,7 @@ const sketch = (p) => {
   })
 
   const offsetPositions = positions.map(position => [
-    position[0] + (width * 0.125),
+    position[0] + (width * 0.12),
     position[1] + ((height / 2) - (text.length * 8)),
   ])
 
@@ -16201,78 +16342,14 @@ const sketch = (p) => {
     offsetPositions[cell[2]],
   ]))
 
-  const groups = [
-    { radius: 16, saturation: 0.1, max: 20 },
-    { radius: 12, saturation: 0.4, max: 50 },
-    { radius: 8, saturation: 0.6, max: 200 },
-    { radius: 6, saturation: 0.2 },
-  ]
-  const DEFAULT_HUE = p.random(128, 196)
-  const DEFAULT_BRIGHTNESS = 255
-
-  const packCircles = (config) => {
-    const {
-      radius,
-      hue = DEFAULT_HUE,
-      saturation,
-      brightness = DEFAULT_BRIGHTNESS,
-      max = Number.MAX_SAFE_INTEGER,
-    } = config
-    let retries = 20000
-    let count = 0
-
-    while (count < max && retries > 0) {
-      const newCircle = {
-        x: p.random(radius, width - radius),
-        y: p.random(radius, height - radius),
-        radius,
-        hue,
-        saturation,
-        brightness,
-      }
-      const test = circle => distance(circle, newCircle) < (radius + circle.radius) / 2
-      const withinCanvas = distance(center, newCircle) < canvasRadius - (radius / 2)
-      const withinText = triangles.some(tri => tri.contains([newCircle.x, newCircle.y]))
-
-      if (withinText) {
-        newCircle.hue = 127 - newCircle.hue
-      }
-
-      if (withinCanvas && !circles.some(test)) {
-        circles.push(newCircle)
-        count += 1
-      } else {
-        retries -= 1
-      }
-    }
-  }
-
-  p.setup = () => {
-    p.createCanvas(width, height)
-    p.colorMode(p.HSB)
-    p.noStroke()
-    p.noLoop()
-
-    groups.forEach(packCircles)
-  }
-
-  p.draw = () => {
-    circles.forEach((circle) => {
-      p.fill(
-        circle.hue,
-        circle.saturation * 255,
-        circle.brightness,
-      )
-      p.ellipse(circle.x, circle.y, circle.radius)
-    })
-  }
+  return point => triangles.some(tri => tri.contains([point.x, point.y]))
 }
 
-new p5(sketch, canvas) // eslint-disable-line no-new
+/* harmony default export */ __webpack_exports__["a"] = (buildText);
 
 
 /***/ }),
-/* 103 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
