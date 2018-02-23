@@ -1,3 +1,5 @@
+import { knuthShuffle } from 'knuth-shuffle'
+
 const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
@@ -6,7 +8,6 @@ const sketch = (p) => {
   const gridSize = 16
   const points = []
 
-  const randomFrom = array => array[Math.floor(Math.random() * array.length)]
   const distanceFrom = target => (point) => {
     const { x, y } = point
     const dX = (x - target.x) ** 2
@@ -28,7 +29,7 @@ const sketch = (p) => {
     const rowHeight = gridSize
     const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
 
-    for (let iX = 0; iX < columns; iX += 1) {
+    for (let iX = 0; iX <= columns; iX += 1) {
       const x = iX * columnWidth
       const yOffset = iX % 2 ? gridSize / 2 : 0
 
@@ -42,6 +43,7 @@ const sketch = (p) => {
   }
 
   p.draw = () => {
+    knuthShuffle(points)
     const pool = points.filter(point => point.adjacents.length < 2).sort(adjacentsSort)
     const a = pool[0]
 
@@ -57,14 +59,14 @@ const sketch = (p) => {
       point.adjacents.indexOf(a) === -1
     ))
 
-    const b = randomFrom(nearestFreePoints)
+    const b = knuthShuffle(nearestFreePoints)[0]
 
     if (!b) {
       return
     }
 
-    a.adjacents = [...a.adjacents, ...b.adjacents, b]
-    b.adjacents = [...a.adjacents, ...a.adjacents, a]
+    a.adjacents.push(b)
+    b.adjacents.push(a)
 
     p.line(a.x, a.y, b.x, b.y)
   }
