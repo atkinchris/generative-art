@@ -54,18 +54,16 @@ const sketch = (p) => {
     p.colorMode(p.HSB, 255)
 
     const inText = buildText(width, height, 'Chris')
-    const columns = Math.ceil(width / gridSize)
-    const rows = Math.ceil(height / gridSize)
 
     const rowHeight = gridSize
     const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
+    let offset = false
 
-    for (let iX = 0; iX <= columns; iX += 1) {
-      const x = iX * columnWidth
-      const yOffset = iX % 2 ? gridSize / 2 : 0
+    for (let x = 0; x <= width; x += columnWidth) {
+      const yOffset = offset ? gridSize / 2 : 0
+      offset = !offset
 
-      for (let iY = 0; iY < rows; iY += 1) {
-        const y = (iY * rowHeight) + yOffset
+      for (let y = yOffset; y < height; y += rowHeight) {
         const point = { x, y, adjacents: 0 }
 
         if (!inText(point)) {

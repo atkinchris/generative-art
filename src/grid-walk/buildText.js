@@ -2,7 +2,7 @@ import vectorizeText from 'vectorize-text'
 
 import Triangle from './triangle'
 
-const buildText = (width, height, text = 'Chris') => {
+const buildText = (width, height, text) => {
   const { positions, cells } = vectorizeText(text.toUpperCase(), {
     font: 'Sans-serif',
     triangles: true,
@@ -11,7 +11,7 @@ const buildText = (width, height, text = 'Chris') => {
   })
 
   const offsetPositions = positions.map(position => [
-    position[0] + (width * 0.05),
+    position[0] + (width * 0.12),
     position[1] + ((height / 2) - (text.length * 8)),
   ])
 
