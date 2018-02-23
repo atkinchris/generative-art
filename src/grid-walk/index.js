@@ -1,14 +1,16 @@
 import { knuthShuffle } from 'knuth-shuffle'
 
+import buildText from './buildText'
+
 const canvas = document.querySelector('.container')
 
 const sketch = (p) => {
   const width = 400
   const height = 400
-  const gridSize = 16
+  const gridSize = 6
   const points = []
 
-  const distanceFrom = target => (point) => {
+  const distanceSqFrom = target => (point) => {
     const { x, y } = point
     const dX = (x - target.x) ** 2
     const dY = (y - target.y) ** 2
@@ -22,9 +24,11 @@ const sketch = (p) => {
   p.setup = () => {
     p.createCanvas(width, height)
     p.noFill()
+    p.colorMode(p.HSB, 255)
 
-    const columns = Math.floor(width / gridSize)
-    const rows = Math.floor(height / gridSize)
+    const inText = buildText(width, height, 'Chris')
+    const columns = Math.ceil(width / gridSize)
+    const rows = Math.ceil(height / gridSize)
 
     const rowHeight = gridSize
     const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
@@ -35,7 +39,11 @@ const sketch = (p) => {
 
       for (let iY = 0; iY < rows; iY += 1) {
         const y = (iY * rowHeight) + yOffset
-        points.push({ x, y, adjacents: [] })
+        const point = { x, y, adjacents: [] }
+
+        if (!inText(point)) {
+          points.push(point)
+        }
       }
     }
 
@@ -47,12 +55,7 @@ const sketch = (p) => {
     const pool = points.filter(point => point.adjacents.length < 2).sort(adjacentsSort)
     const a = pool[0]
 
-    if (!a) {
-      p.noLoop()
-      console.log('Loop over')
-    }
-
-    const sortedPoints = pool.map(distanceFrom(a)).sort(distanceSort)
+    const sortedPoints = pool.map(distanceSqFrom(a)).sort(distanceSort)
     const nearestFreePoints = sortedPoints.filter(point => (
       point.distance === gridSize ** 2 &&
       point.adjacents.length < 2 &&
@@ -61,13 +64,14 @@ const sketch = (p) => {
 
     const b = knuthShuffle(nearestFreePoints)[0]
 
-    if (!b) {
-      return
-    }
+    if (!b) return
 
     a.adjacents.push(b)
     b.adjacents.push(a)
 
+    const colour = ((a.y / height) * 96) + 128
+
+    p.stroke(colour, 255, 255)
     p.line(a.x, a.y, b.x, b.y)
   }
 }
