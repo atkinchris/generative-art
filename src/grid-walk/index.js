@@ -8,9 +8,9 @@ const sketch = (p) => {
   const width = 400
   const height = 400
   const gridSize = 6
-  const maxAttempts = 2000
+  const maxAttempts = 1000
   const maxAdjacents = 2
-  const passes = 10
+  const passes = 3
   const points = []
   const lines = []
 
@@ -47,6 +47,7 @@ const sketch = (p) => {
   }
 
   p.setup = () => {
+    console.time('Setup')
     p.createCanvas(width, height)
     p.noFill()
     p.noLoop()
@@ -73,8 +74,6 @@ const sketch = (p) => {
       }
     }
 
-    points.forEach(({ x, y }) => p.point(x, y))
-
     for (let pass = 0; pass < passes; pass += 1) {
       const discard = []
       let attempts = 0
@@ -95,6 +94,8 @@ const sketch = (p) => {
         }
       })
     }
+
+    console.timeEnd('Setup')
   }
 
   p.draw = () => {
