@@ -9,21 +9,45 @@ const sketch = (p) => {
   const height = 400
   const gridSize = 6
   const points = []
+  const discard = []
+  const lines = []
 
-  const distanceSqFrom = target => (point) => {
-    const { x, y } = point
-    const dX = (x - target.x) ** 2
-    const dY = (y - target.y) ** 2
-    return Object.assign({}, point, {
-      distance: Math.round(dX + dY),
-    })
+  const distanceSqFrom = (a, b) => {
+    const dX = (a.x - b.x) ** 2
+    const dY = (a.y - b.y) ** 2
+    return Math.round(dX + dY)
   }
-  const distanceSort = (a, b) => a.distance - b.distance
-  const adjacentsSort = (a, b) => a.adjacents.length - b.adjacents.length
+
+  const buildLine = (list) => {
+    knuthShuffle(list)
+    const aIndex = 0
+    const bIndex = list.findIndex(point => distanceSqFrom(list[0], point) === gridSize ** 2)
+
+    if (bIndex === -1) return null
+
+    const b = list.splice(bIndex, 1)[0]
+    const a = list.splice(aIndex, 1)[0]
+
+    b.adjacents += 1
+    a.adjacents += 1
+    discard.push(a)
+    discard.push(b)
+
+    const colour = ((a.y / height) * 96) + 128
+
+    return {
+      x1: a.x,
+      x2: b.x,
+      y1: a.y,
+      y2: b.y,
+      colour,
+    }
+  }
 
   p.setup = () => {
     p.createCanvas(width, height)
     p.noFill()
+    p.noLoop()
     p.colorMode(p.HSB, 255)
 
     const inText = buildText(width, height, 'Chris')
@@ -39,7 +63,7 @@ const sketch = (p) => {
 
       for (let iY = 0; iY < rows; iY += 1) {
         const y = (iY * rowHeight) + yOffset
-        const point = { x, y, adjacents: [] }
+        const point = { x, y, adjacents: 0 }
 
         if (!inText(point)) {
           points.push(point)
@@ -48,31 +72,37 @@ const sketch = (p) => {
     }
 
     points.forEach(({ x, y }) => p.point(x, y))
+
+    const passes = 20
+
+    for (let pass = 0; pass < passes; pass += 1) {
+      const maxAttempts = 2000
+      let attempts = 0
+
+      while (attempts < maxAttempts) {
+        const line = buildLine(points)
+
+        if (line) {
+          lines.push(line)
+        } else {
+          attempts += 1
+        }
+      }
+
+      discard.forEach((point) => {
+        if (point.adjacents < 2) {
+          points.push(point)
+        }
+      })
+      discard.length = 0
+    }
   }
 
   p.draw = () => {
-    knuthShuffle(points)
-    const pool = points.filter(point => point.adjacents.length < 2).sort(adjacentsSort)
-    const a = pool[0]
-
-    const sortedPoints = pool.map(distanceSqFrom(a)).sort(distanceSort)
-    const nearestFreePoints = sortedPoints.filter(point => (
-      point.distance === gridSize ** 2 &&
-      point.adjacents.length < 2 &&
-      point.adjacents.indexOf(a) === -1
-    ))
-
-    const b = knuthShuffle(nearestFreePoints)[0]
-
-    if (!b) return
-
-    a.adjacents.push(b)
-    b.adjacents.push(a)
-
-    const colour = ((a.y / height) * 96) + 128
-
-    p.stroke(colour, 255, 255)
-    p.line(a.x, a.y, b.x, b.y)
+    lines.forEach((line) => {
+      p.stroke(line.colour, 255, 255)
+      p.line(line.x1, line.y1, line.x2, line.y2)
+    })
   }
 }
 
