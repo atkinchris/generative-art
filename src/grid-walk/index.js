@@ -53,7 +53,9 @@ const sketch = (p) => {
     p.noLoop()
     p.colorMode(p.HSB, 255)
 
-    const inText = buildText(width, height, 'Chris')
+    const { inText, bounds } = buildText(width, height, 'Chris')
+
+    console.log(bounds)
 
     const rowHeight = gridSize
     const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
