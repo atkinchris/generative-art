@@ -2,47 +2,65 @@ import drawIsoCube from './isoCube'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
-canvas.width = 400
-canvas.height = 400
+canvas.width = 800
+canvas.height = 800
 container.appendChild(canvas)
-
-const depthSort = (a, b) => a.y - b.y
 
 const sketch = () => {
   const { width, height } = canvas
   const ctx = canvas.getContext('2d')
-  const size = Math.floor(width / 12)
+  const size = Math.floor(width / 24)
   const grid = []
   const depth = 5
+  const curve = 4
 
   const rowHeight = size
   const columnWidth = Math.sqrt((size ** 2) - ((size / 2) ** 2))
+  const curveWidth = columnWidth * 2 * (curve + 1)
+  const planes = Math.ceil(height / (rowHeight * 2))
 
-  let offset = false
+  for (let y = 0; y <= height; y += rowHeight * 2) {
+    const plane = y / (rowHeight * 2)
 
-  for (let x = 0; x <= width + columnWidth; x += columnWidth * 2) {
-    const yOffset = offset ? size / 2 : 0
-    offset = !offset
-
-    for (let y = height; y > yOffset; y -= rowHeight) {
-      for (let z = 0; z < depth; z += 1) {
+    for (let x = width; x >= -curveWidth; x -= curveWidth) {
+      for (let z = 0; z <= depth; z += 1) {
+        const yOffset = y - (z * rowHeight)
         grid.push({
-          x: x + (columnWidth * (z % 2)) + (columnWidth * 0),
-          y: y - (rowHeight * ((z * 0.5) + 1)),
+          x: x - columnWidth,
+          y: yOffset - (rowHeight * 0.5),
+          z,
+          plane,
         })
+
+        for (let c = 0; c < curve; c += 1) {
+          grid.push({
+            x: x + (columnWidth * (0 + c)),
+            y: yOffset + (rowHeight * 0.5 * c),
+            z,
+            plane,
+          })
+          grid.push({
+            x: x + (columnWidth * ((curve * 2) - c)),
+            y: yOffset + (rowHeight * 0.5 * c),
+            z,
+            plane,
+          })
+        }
+
         grid.push({
-          x: x + (columnWidth * (z % 2)) + (columnWidth * 0),
-          y: y - (rowHeight * ((z * 0.5) + 0)),
+          x: x + (columnWidth * curve),
+          y: yOffset + (rowHeight * 0.5 * curve),
+          z,
+          plane,
         })
       }
     }
   }
 
   grid
-    .sort(depthSort)
     .map(cube => Object.assign({}, cube, {
       size,
-      colour: (cube.y / height) * 360,
+      colour: (cube.plane / planes) * 360,
     }))
     .forEach(cube => drawIsoCube(ctx, cube))
 }
