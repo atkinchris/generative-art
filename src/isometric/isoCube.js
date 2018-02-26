@@ -8,27 +8,27 @@ const drawIsoCube = (p, { x, y, size, angle = 30 }) => {
   const rFace = () => {
     p.beginShape()
     p.vertex(0, 0)
-    p.vertex(-dX, -dY)
-    p.vertex(-dX, -dY - size)
-    p.vertex(0, -size)
+    p.vertex(0, size)
+    p.vertex(dX, dY)
+    p.vertex(dX, dY - size)
     p.endShape(p.CLOSE)
   }
 
   const lFace = () => {
     p.beginShape()
     p.vertex(0, 0)
-    p.vertex(dX, -dY)
-    p.vertex(dX, -dY - size)
-    p.vertex(0, -size)
+    p.vertex(0, size)
+    p.vertex(-dX, dY)
+    p.vertex(-dX, dY - size)
     p.endShape(p.CLOSE)
   }
 
   const top = () => {
     p.beginShape()
+    p.vertex(0, 0)
+    p.vertex(dX, -dY)
     p.vertex(0, -size)
-    p.vertex(dX, -dY - size)
-    p.vertex(0, -size - size)
-    p.vertex(-dX, -dY - size)
+    p.vertex(-dX, -dY)
     p.endShape(p.CLOSE)
   }
 
