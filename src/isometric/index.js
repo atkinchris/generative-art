@@ -1,22 +1,21 @@
 import drawIsoCube from './isoCube'
 
-const canvas = document.querySelector('.container')
+const container = document.querySelector('.container')
 
-const sketch = (p) => {
+const sketch = () => {
   const width = 400
   const height = 400
-  const size = 30
+  const size = 100
 
-  p.setup = () => {
-    p.createCanvas(width, height)
-    p.colorMode(p.HSB)
-    p.noFill()
-    p.noLoop()
-  }
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
 
-  p.draw = () => {
-    drawIsoCube(p, { x: 200, y: 200, size })
-  }
+  const ctx = canvas.getContext('2d')
+
+  drawIsoCube(ctx, { x: 200, y: 200, size })
+
+  container.appendChild(canvas)
 }
 
-new p5(sketch, canvas) // eslint-disable-line no-new
+sketch()

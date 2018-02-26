@@ -1,44 +1,58 @@
 const radians = degrees => degrees * (Math.PI / 180)
 
-const drawIsoCube = (p, { x, y, size, angle = 30 }) => {
+const drawIsoCube = (ctx, { x, y, size, angle = 30 }) => {
   const a = radians(angle)
   const dX = size * Math.cos(a)
   const dY = size * Math.sin(a)
 
+  const moveTo = (rX, rY) => ctx.moveTo(x + rX, y + rY)
+  const lineTo = (rX, rY) => ctx.lineTo(x + rX, y + rY)
+
   const rFace = () => {
-    p.beginShape()
-    p.vertex(0, 0)
-    p.vertex(0, size)
-    p.vertex(dX, dY)
-    p.vertex(dX, dY - size)
-    p.endShape(p.CLOSE)
+    ctx.strokeStyle = '#000'
+    ctx.fillStyle = '#FFF'
+
+    ctx.beginPath()
+    moveTo(0, 0)
+    lineTo(0, size)
+    lineTo(dX, dY)
+    lineTo(dX, dY - size)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
   }
 
   const lFace = () => {
-    p.beginShape()
-    p.vertex(0, 0)
-    p.vertex(0, size)
-    p.vertex(-dX, dY)
-    p.vertex(-dX, dY - size)
-    p.endShape(p.CLOSE)
+    ctx.strokeStyle = '#000'
+    ctx.fillStyle = '#FFF'
+
+    ctx.beginPath()
+    moveTo(0, 0)
+    lineTo(0, size)
+    lineTo(-dX, dY)
+    lineTo(-dX, dY - size)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
   }
 
   const top = () => {
-    p.beginShape()
-    p.vertex(0, 0)
-    p.vertex(dX, -dY)
-    p.vertex(0, -size)
-    p.vertex(-dX, -dY)
-    p.endShape(p.CLOSE)
-  }
+    ctx.strokeStyle = '#000'
+    ctx.fillStyle = '#FFF'
 
-  p.push()
-  p.translate(x, y)
+    ctx.beginPath()
+    moveTo(0, 0)
+    lineTo(dX, -dY)
+    lineTo(0, -size)
+    lineTo(-dX, -dY)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+  }
 
   lFace()
   rFace()
   top()
-  p.pop()
 }
 
 export default drawIsoCube
