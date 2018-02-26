@@ -16,6 +16,7 @@ const pages = [
   { name: 'flow-field', title: 'Perlin Flow Field' },
   { name: 'text-pathing', title: 'Text Pathing' },
   { name: 'grid-walk', title: 'Grid Walk' },
+  { name: 'isometric', title: 'Isometric' },
 ]
 
 const buildPages = ({ SRC }) => {
