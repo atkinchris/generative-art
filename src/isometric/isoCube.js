@@ -1,6 +1,6 @@
 const radians = degrees => degrees * (Math.PI / 180)
 
-const drawIsoCube = (ctx, { x, y, size, angle = 30 }) => {
+const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
   const a = radians(angle)
   const dX = size * Math.cos(a)
   const dY = size * Math.sin(a)
@@ -9,8 +9,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30 }) => {
   const lineTo = (rX, rY) => ctx.lineTo(x + rX, y + rY)
 
   const rFace = () => {
-    ctx.strokeStyle = '#000'
-    ctx.fillStyle = '#FFF'
+    ctx.strokeStyle = '#FFF'
+    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
@@ -23,8 +23,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30 }) => {
   }
 
   const lFace = () => {
-    ctx.strokeStyle = '#000'
-    ctx.fillStyle = '#FFF'
+    ctx.strokeStyle = '#FFF'
+    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
@@ -37,8 +37,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30 }) => {
   }
 
   const top = () => {
-    ctx.strokeStyle = '#000'
-    ctx.fillStyle = '#FFF'
+    ctx.strokeStyle = '#FFF'
+    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
