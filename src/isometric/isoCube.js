@@ -9,8 +9,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
   const lineTo = (rX, rY) => ctx.lineTo(x + rX, y + rY)
 
   const rFace = () => {
-    ctx.strokeStyle = '#FFF'
-    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
+    ctx.fillStyle = `hsl(${colour}, 50%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
@@ -23,8 +23,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
   }
 
   const lFace = () => {
-    ctx.strokeStyle = '#FFF'
-    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
+    ctx.fillStyle = `hsl(${colour}, 50%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
@@ -37,8 +37,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
   }
 
   const top = () => {
-    ctx.strokeStyle = '#FFF'
-    ctx.fillStyle = `hsl(${colour}, 100%, 50%)`
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
+    ctx.fillStyle = `hsl(${colour}, 50%, 50%)`
 
     ctx.beginPath()
     moveTo(0, 0)
