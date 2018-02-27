@@ -9,7 +9,7 @@ container.appendChild(canvas)
 const sketch = () => {
   const { width, height } = canvas
   const ctx = canvas.getContext('2d')
-  const size = Math.floor(width / 24)
+  const size = Math.floor(width / 16)
   const grid = []
   const depth = 5
   const curve = 4

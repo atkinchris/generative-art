@@ -10,7 +10,7 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
 
   const rFace = () => {
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
-    ctx.fillStyle = `hsl(${colour}, 50%, 50%)`
+    ctx.fillStyle = `hsl(${colour}, 50%, 60%)`
 
     ctx.beginPath()
     moveTo(0, 0)
@@ -24,7 +24,7 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour }) => {
 
   const lFace = () => {
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
-    ctx.fillStyle = `hsl(${colour}, 50%, 50%)`
+    ctx.fillStyle = `hsl(${colour}, 50%, 40%)`
 
     ctx.beginPath()
     moveTo(0, 0)
