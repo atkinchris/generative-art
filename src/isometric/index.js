@@ -23,7 +23,7 @@ const sketch = () => {
     const plane = y / (rowHeight * 2)
 
     for (let x = width; x >= -curveWidth; x -= curveWidth) {
-      for (let z = 0; z <= depth; z += 1) {
+      for (let z = depth; z >= 0; z -= 1) {
         const yOffset = y - (z * rowHeight)
         grid.push({
           x: x - columnWidth,
@@ -57,7 +57,32 @@ const sketch = () => {
     }
   }
 
+  const depthSort = (a, b) => {
+    if (a.plane === b.plane) {
+      if (a.y < b.y) {
+        return -1
+      }
+
+      if (a.y > b.y) {
+        return 1
+      }
+
+      return 0
+    }
+
+    if (a.plane > b.plane) {
+      return -1
+    }
+
+    if (a.plane < b.plane) {
+      return 1
+    }
+
+    return 0
+  }
+
   grid
+    .sort(depthSort)
     .map(cube => Object.assign({}, cube, {
       size,
       colour: (cube.plane / planes) * 360,
