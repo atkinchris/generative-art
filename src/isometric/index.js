@@ -2,8 +2,8 @@ import drawIsoCube from './isoCube'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
-canvas.width = 800
-canvas.height = 800
+canvas.width = 512
+canvas.height = 512
 container.appendChild(canvas)
 
 const sketch = () => {
@@ -19,7 +19,7 @@ const sketch = () => {
   const curveWidth = columnWidth * 2 * (curve + 1)
   const planes = Math.ceil(height / (rowHeight * 2))
 
-  for (let y = 0; y <= height; y += rowHeight * 2) {
+  for (let y = 0; y <= height + (rowHeight * 2); y += rowHeight * 2) {
     const plane = y / (rowHeight * 2)
 
     for (let x = width; x >= -curveWidth; x -= curveWidth) {
@@ -81,8 +81,17 @@ const sketch = () => {
     return 0
   }
 
+  const depthFilter = ({ z }) => {
+    if (z === 0) {
+      return Math.random() > 0.25
+    }
+
+    return true
+  }
+
   grid
     .sort(depthSort)
+    .filter(depthFilter)
     .map(cube => Object.assign({}, cube, {
       size,
       colour: (cube.plane / planes) * 360,
