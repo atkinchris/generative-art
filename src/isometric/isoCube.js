@@ -5,14 +5,8 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour = 'white' }) => {
   const dX = size * Math.cos(a)
   const dY = size * Math.sin(a)
 
-  const composite = 'multiply'
-
   const moveTo = (rX, rY) => ctx.moveTo(x + rX, y + rY)
   const lineTo = (rX, rY) => ctx.lineTo(x + rX, y + rY)
-  const gradTo = (x1, y1, x2, y2) => ctx.createLinearGradient(x + x1, y + y1, x + x2, y + y2)
-
-  // ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'
-  // ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
 
   const fillSolid = () => {
     ctx.globalCompositeOperation = 'source-over'
@@ -22,11 +16,17 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour = 'white' }) => {
 
   const fillShadow = (x1, y1, x2, y2, a1, a2) => {
     const gradient = ctx.createLinearGradient(x + x1, y + y1, x + x2, y + y2)
-    gradient.addColorStop(0, `rgba(${a1}, ${a1}, ${a1}, 1)`)
-    gradient.addColorStop(1, `rgba(${a2}, ${a2}, ${a2}, 1)`)
-    ctx.globalCompositeOperation = composite
+    gradient.addColorStop(0, `rgba(${a1}, ${a1}, ${a1}, 0.75)`)
+    gradient.addColorStop(1, `rgba(${a2}, ${a2}, ${a2}, 0.75)`)
+    ctx.globalCompositeOperation = 'multiply'
     ctx.fillStyle = gradient
     ctx.fill()
+  }
+
+  const stroke = () => {
+    ctx.globalCompositeOperation = 'lighten'
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+    ctx.stroke()
   }
 
   const rFace = () => {
@@ -39,8 +39,7 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour = 'white' }) => {
 
     fillSolid()
     fillShadow(0, 0, dX, dY, 255, 196)
-
-    // ctx.stroke()
+    stroke()
   }
 
   const lFace = () => {
@@ -53,8 +52,7 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour = 'white' }) => {
 
     fillSolid()
     fillShadow(0, 0, -dX, dY, 222, 64)
-
-    // ctx.stroke()
+    stroke()
   }
 
   const top = () => {
@@ -67,8 +65,7 @@ const drawIsoCube = (ctx, { x, y, size, angle = 30, colour = 'white' }) => {
 
     fillSolid()
     fillShadow(0, 0, 0, -size, 255, 127)
-
-    // ctx.stroke()
+    stroke()
   }
 
   lFace()

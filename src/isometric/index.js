@@ -6,6 +6,14 @@ canvas.width = 512
 canvas.height = 512
 container.appendChild(canvas)
 
+const palette = [
+  '#384259',
+  '#F73859',
+  '#7AC7C4',
+  '#C4EDDE',
+]
+const getRColour = () => palette[Math.floor(Math.random() * palette.length)]
+
 const sketch = () => {
   const { width, height } = canvas
   const ctx = canvas.getContext('2d')
@@ -17,7 +25,7 @@ const sketch = () => {
   const rowHeight = size
   const columnWidth = Math.sqrt((size ** 2) - ((size / 2) ** 2))
   const curveWidth = columnWidth * 2 * (curve + 1)
-  const planes = Math.ceil(height / (rowHeight * 2))
+  // const planes = Math.ceil(height / (rowHeight * 2))
 
   for (let y = 0; y <= height + (rowHeight * 2); y += rowHeight * 2) {
     const plane = y / (rowHeight * 2)
@@ -94,7 +102,7 @@ const sketch = () => {
     .filter(depthFilter)
     .map(cube => Object.assign({}, cube, {
       size,
-      colour: Math.random() < 0.4 ? 'red' : 'blue',
+      colour: getRColour(),
     }))
     .forEach(cube => drawIsoCube(ctx, cube))
 }
