@@ -94,7 +94,7 @@ const sketch = () => {
     .filter(depthFilter)
     .map(cube => Object.assign({}, cube, {
       size,
-      colour: cube.z === 0 && Math.random() < 0.4 && Math.random(),
+      colour: Math.random() < 0.4 ? 'red' : 'blue',
     }))
     .forEach(cube => drawIsoCube(ctx, cube))
 }
