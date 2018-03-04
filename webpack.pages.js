@@ -20,12 +20,15 @@ const buildPages = ({ SRC }) => {
   const entry = pages.reduce((out, { name }) => ({
     ...out,
     [name]: path.join(SRC, name),
-  }), {})
+  }), {
+    index: SRC,
+  })
 
   const plugins = [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
+      chunks: ['index'],
       inject: false,
       pages,
     }),
