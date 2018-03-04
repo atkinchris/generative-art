@@ -10,12 +10,9 @@ const pages = [
   { name: 'circle-packing', title: 'Circle Packing' },
   { name: 'watercolour', title: 'Watercolour' },
   { name: 'triangle-subdivision', title: 'Triangle Subdivision' },
-  { name: 'line-landscape', title: 'Line Landscape' },
   { name: 'clock-of-clocks', title: 'Clock of Clocks' },
-  { name: 'concentric-circles', title: 'Concentric Circles' },
   { name: 'flow-field', title: 'Perlin Flow Field' },
   { name: 'text-pathing', title: 'Text Pathing' },
-  { name: 'grid-walk', title: 'Grid Walk' },
   { name: 'isometric', title: 'Isometric' },
 ]
 
