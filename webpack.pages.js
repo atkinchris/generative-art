@@ -22,7 +22,14 @@ const buildPages = ({ SRC }) => {
     [name]: path.join(SRC, name),
   }), {})
 
-  const plugins = []
+  const plugins = [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+      inject: false,
+      pages,
+    }),
+  ]
 
   pages.forEach(({ name, title }) => {
     plugins.push(new HtmlWebpackPlugin({
