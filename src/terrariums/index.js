@@ -1,6 +1,6 @@
 import { vec3, mat4 } from 'gl-matrix'
 
-import { buildGeometry, sortDepth } from './geometry'
+import { buildGeometry } from './geometry'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
@@ -18,12 +18,7 @@ const setup = () => {
   canvas.height = height
 }
 
-const fills = [
-  'lightgreen',
-  'green',
-]
-
-const draw = (angle = Math.PI / 2) => {
+const draw = (angle = 0.5) => {
   const { vertices, faces } = buildGeometry()
 
   for (let index = 0; index < vertices.length; index += 1) {
@@ -38,7 +33,7 @@ const draw = (angle = Math.PI / 2) => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  faces.forEach((face, index) => {
+  faces.forEach((face) => {
     ctx.beginPath()
 
     face.forEach((vertex, vIndex) => {
@@ -49,9 +44,21 @@ const draw = (angle = Math.PI / 2) => {
       }
     })
 
+    const gradient = ctx.createLinearGradient(
+      face[Math.floor(face.length / 5)][0],
+      face[Math.floor(face.length / 5)][1],
+      face[Math.ceil(face.length / 2)][0],
+      face[Math.ceil(face.length / 2)][1],
+    )
+    gradient.addColorStop(0, 'green')
+    gradient.addColorStop(1, 'lightgreen')
+
     ctx.closePath()
-    ctx.fillStyle = fills[index]
+    ctx.fillStyle = gradient
+    ctx.strokeStyle = 'green'
+    ctx.filter = 'blur(1px)'
     ctx.fill()
+    ctx.stroke()
   })
 
   requestAnimationFrame(() => draw(angle + 0.025))
