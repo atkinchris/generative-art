@@ -1,24 +1,24 @@
 import { vec3 } from 'gl-matrix'
 
+const z = v => (Math.sin((Math.PI / 2) * v[1]) - Math.cos((Math.PI / 2) * v[0])) / 2
+
 const buildGeometry = () => {
+  const rightHalf = [
+    [0.0, 1.0],
+    [0.55, 0.5],
+    [0.35, -0.5],
+    [0.0, -1.0],
+    [0.0, -0.5],
+    [0.0, 0.5],
+  ]
   const vertices = [
-    [-1.0, -1.0, -1.0], // Front-Bottom-Left
-    [1.0, -1.0, -1.0], // Front-Bottom-Right
-    [-1.0, -1.0, 1.0], // Rear-Bottom-Left
-    [1.0, -1.0, 1.0], // Rear-Bottom-Right
-    [-1.0, 1.0, -1.0], // Front-Top-Left
-    [1.0, 1.0, -1.0], // Front-Top-Right
-    [-1.0, 1.0, 1.0], // Rear-Top-Left
-    [1.0, 1.0, 1.0], // Rear-Top-Right
-  ].map(v => vec3.fromValues(v[0], v[1], v[2]))
+    ...rightHalf,
+    ...rightHalf.map(v => [v[0] * -1, v[1], v[2]]),
+  ].map(v => vec3.fromValues(v[0], v[1], z(v)))
 
   const faces = [
-    [vertices[0], vertices[1], vertices[5], vertices[4]], // Front
-    [vertices[2], vertices[3], vertices[7], vertices[6]], // Rear
-    [vertices[0], vertices[1], vertices[3], vertices[2]], // Bottom
-    [vertices[4], vertices[5], vertices[7], vertices[6]], // Top
-    [vertices[0], vertices[2], vertices[6], vertices[4]], // Left
-    [vertices[1], vertices[3], vertices[7], vertices[5]], // Right
+    vertices.slice(0, rightHalf.length),
+    vertices.slice(rightHalf.length),
   ]
 
   return {
