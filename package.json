@@ -31,6 +31,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "gl-mat3": "^1.0.0",
     "knuth-shuffle": "^1.0.8",
     "vectorize-text": "^3.0.2"
   }

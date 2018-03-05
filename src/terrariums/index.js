@@ -1,3 +1,5 @@
+import mat3 from 'gl-mat3'
+
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
 const ctx = canvas.getContext('2d')
@@ -9,6 +11,12 @@ const sortMax = (prop, desc) => (a, b) => {
   return desc ? max(a) < max(b) : max(a) > max(b)
 }
 
+const mat3Column = (m, col) => [
+  m[0 + col],
+  m[3 + col],
+  m[6 + col],
+]
+
 const draw = () => {
   const width = 400
   const height = 400
@@ -16,17 +24,31 @@ const draw = () => {
   canvas.height = height
 
   const size = canvas.width / 2
+  const rotation = mat3.rotate(mat3.create(), mat3.create(), 0.5)
 
   const vertices = [
-    { x: -1.0, y: -1.0, z: -1.0 }, // Front-Bottom-Left
-    { x: 1.0, y: -1.0, z: -1.0 }, // Front-Bottom-Right
-    { x: -1.0, y: -1.0, z: 1.0 }, // Rear-Bottom-Left
-    { x: 1.0, y: -1.0, z: 1.0 }, // Rear-Bottom-Right
-    { x: -1.0, y: 1.0, z: -1.0 }, // Front-Top-Left
-    { x: 1.0, y: 1.0, z: -1.0 }, // Front-Top-Right
-    { x: -1.0, y: 1.0, z: 1.0 }, // Rear-Top-Left
-    { x: 1.0, y: 1.0, z: 1.0 }, // Rear-Top-Right
+    [-1.0, -1.0, -1.0], // Front-Bottom-Left
+    [1.0, -1.0, -1.0], // Front-Bottom-Right
+    [-1.0, -1.0, 1.0], // Rear-Bottom-Left
+    [1.0, -1.0, 1.0], // Rear-Bottom-Right
+    [-1.0, 1.0, -1.0], // Front-Top-Left
+    [1.0, 1.0, -1.0], // Front-Top-Right
+    [-1.0, 1.0, 1.0], // Rear-Top-Left
+    [1.0, 1.0, 1.0], // Rear-Top-Right
   ]
+
+  for (let index = 0; index < vertices.length; index += 1) {
+    const vertex = vertices[index]
+
+    const out = mat3.create()
+
+    console.log(out, mat3Column(out, 1))
+
+    // const out = mat3.multiply(mat3.create(), vertex, rotation)
+    // vertices[index] = out
+  }
+
+  console.log(vertices)
 
   const faces = [
     [vertices[0], vertices[1], vertices[5], vertices[4]], // Front
@@ -36,19 +58,19 @@ const draw = () => {
     [vertices[0], vertices[2], vertices[6], vertices[4]], // Left
     [vertices[1], vertices[3], vertices[7], vertices[5]], // Right
   ]
-    .sort(sortMax('x'))
-    .sort(sortMax('y'))
-    .sort(sortMax('z', true))
+    .sort(sortMax(0))
+    .sort(sortMax(1))
+    .sort(sortMax(2, true))
 
-  const vertexShader = vertex => ({
-    x: vertex.x + (vertex.z * ((1 / 2) * Math.cos(0.5))),
-    y: vertex.y + (vertex.z * ((1 / 2) * Math.sin(0.5))),
-  })
+  const vertexShader = vertex => [
+    vertex[0] + (vertex[2] * ((1 / 2) * Math.cos(0.5))),
+    vertex[1] + (vertex[2] * ((1 / 2) * Math.sin(0.5))),
+  ]
 
-  const toWorld = vertex => ({
-    x: vertex.x * (size / 2),
-    y: vertex.y * (size / 2) * -1,
-  })
+  const toWorld = vertex => [
+    vertex[0] * (size / 2),
+    vertex[1] * (size / 2) * -1,
+  ]
 
   ctx.translate(canvas.width / 2, canvas.height / 2)
   ctx.fillStyle = 'white'
@@ -60,9 +82,9 @@ const draw = () => {
       const transformed = vertexShader(vertex)
       const world = toWorld(transformed)
       if (index === 0) {
-        ctx.moveTo(world.x, world.y)
+        ctx.moveTo(world[0], world[1])
       } else {
-        ctx.lineTo(world.x, world.y)
+        ctx.lineTo(world[0], world[1])
       }
     })
 
