@@ -17,8 +17,8 @@ const setup = () => {
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  drawLeaf(ctx, { x: 200, y: 100 })
-  requestAnimationFrame(() => draw())
+  drawLeaf(ctx, { x: 200, y: 100, rY: -0.5, rZ: 0.4 })
+  drawLeaf(ctx, { x: 200, y: 100, rY: 1.0, rZ: -0.3 })
 }
 
 setup()

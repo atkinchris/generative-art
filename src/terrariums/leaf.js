@@ -9,7 +9,7 @@ const drawLeaf = (ctx, options) => {
     x = 0,
     y = 0,
     z = 0,
-    scale = vec3.fromValues(1, 1, 1),
+    scale = [1, 1, 1],
     rX = -0.4,
     rY = 0,
     rZ = 0,
@@ -21,13 +21,13 @@ const drawLeaf = (ctx, options) => {
     const vertex = vertices[index]
 
     const transform = mat4.create()
-    mat4.translate(transform, transform, vec3.fromValues(x, y, z))
-    mat4.scale(transform, transform, scale)
-    mat4.scale(transform, transform, worldTransform)
-    mat4.rotateY(transform, transform, rY)
-    mat4.rotateZ(transform, transform, rZ)
-    mat4.rotateX(transform, transform, rX)
-    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0))
+    mat4.translate(transform, transform, vec3.fromValues(x, y, z)) // Move to world position
+    mat4.scale(transform, transform, scale) // Scale as required
+    mat4.scale(transform, transform, worldTransform) // Scale to world cooridinates
+    mat4.rotateY(transform, transform, rY) // Rotate around stem
+    mat4.rotateZ(transform, transform, rZ) // Rotate up/down
+    mat4.rotateX(transform, transform, rX) // Rotate to vertical
+    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0)) // Move origin
     vec3.transformMat4(vertex, vertex, transform)
   }
 
