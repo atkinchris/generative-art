@@ -44,8 +44,20 @@ const midPoint = (p1, p2) => [
   p1[1] + ((p2[1] - p1[1]) / 2),
 ]
 
+const interpolate = points => points.reduce((out, point, i) => {
+  if (i === points.length - 1) return out
+
+  const next = points[(i + 1) % points.length]
+  const mid = midPoint(point, next)
+  out.push(point)
+  out.push(mid)
+
+  return out
+}, [])
+
 export {
   sortDepth,
   buildGeometry,
   midPoint,
+  interpolate,
 }

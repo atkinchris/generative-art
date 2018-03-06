@@ -2,7 +2,7 @@ import { vec3, mat4 } from 'gl-matrix'
 
 import { buildGeometry, midPoint } from './geometry'
 
-const size = 40
+const size = 30
 
 const worldScale = vec3.fromValues(size, -size, size)
 
@@ -78,6 +78,7 @@ const drawLeaf = (ctx, options) => {
     ctx.closePath()
     ctx.fillStyle = gradient
     ctx.strokeStyle = 'green'
+    ctx.lineWidth = 1
     ctx.filter = 'blur(1px)'
     ctx.fill()
     ctx.stroke()
