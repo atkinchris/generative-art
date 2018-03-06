@@ -148,10 +148,7 @@ function equals(a, b) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__geometry__ = __webpack_require__(117);
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__leaf__ = __webpack_require__(112);
 
 
 const container = document.querySelector('.container')
@@ -160,35 +157,65 @@ const ctx = canvas.getContext('2d')
 
 const width = 400
 const height = 400
-const size = width / 2
-const worldTransform = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(size / 2, (size / 2) * -1, size / 2)
 
 container.appendChild(canvas)
-
-const midPoint = (p1, p2) => [
-  p1[0] + ((p2[0] - p1[0]) / 2),
-  p1[1] + ((p2[1] - p1[1]) / 2),
-]
 
 const setup = () => {
   canvas.width = width
   canvas.height = height
 }
 
-const draw = (angle = 0.5) => {
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: 200, y: 100, rY: -0.5, rZ: 0.4 })
+  Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: 200, y: 100, rY: 1.0, rZ: -0.3 })
+}
+
+setup()
+draw()
+
+
+/***/ }),
+
+/***/ 112:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__geometry__ = __webpack_require__(118);
+
+
+
+
+const worldTransform = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(100, 100 * -1, 100)
+
+const drawLeaf = (ctx, options) => {
+  const {
+    x = 0,
+    y = 0,
+    z = 0,
+    scale = [1, 1, 1],
+    rX = -0.4,
+    rY = 0,
+    rZ = 0,
+  } = options
+
   const { vertices, faces } = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["a" /* buildGeometry */])()
 
   for (let index = 0; index < vertices.length; index += 1) {
     const vertex = vertices[index]
 
     const transform = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].create()
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(width / 2, height / 2, 1))
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, worldTransform)
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateY(transform, transform, angle)
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(x, y, z)) // Move to world position
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, scale) // Scale as required
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, worldTransform) // Scale to world cooridinates
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateY(transform, transform, rY) // Rotate around stem
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateZ(transform, transform, rZ) // Rotate up/down
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateX(transform, transform, rX) // Rotate to vertical
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, -1, 0)) // Move origin
     __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].transformMat4(vertex, vertex, transform)
   }
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   faces.forEach((face) => {
     ctx.beginPath()
@@ -198,7 +225,7 @@ const draw = (angle = 0.5) => {
         ctx.moveTo(vertex[0], vertex[1])
       } else {
         const next = face[(vIndex + 1) % face.length]
-        const mid = midPoint(vertex, next)
+        const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["b" /* midPoint */])(vertex, next)
         ctx.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
       }
     })
@@ -219,17 +246,14 @@ const draw = (angle = 0.5) => {
     ctx.fill()
     ctx.stroke()
   })
-
-  requestAnimationFrame(() => draw(angle + 0.025))
 }
 
-setup()
-draw()
+/* harmony default export */ __webpack_exports__["a"] = (drawLeaf);
 
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -699,7 +723,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 113:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1201,7 +1225,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 114:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2940,7 +2964,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 115:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3631,7 +3655,7 @@ const setAxes = (function() {
 
 /***/ }),
 
-/***/ 116:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4274,12 +4298,13 @@ const forEach = (function() {
 
 /***/ }),
 
-/***/ 117:
+/***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* unused harmony export sortDepth */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return buildGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return midPoint; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
 
 
@@ -4322,6 +4347,11 @@ const sortDepth = (a, b) => {
   return avg(a) < avg(b)
 }
 
+const midPoint = (p1, p2) => [
+  p1[0] + ((p2[0] - p1[0]) / 2),
+  p1[1] + ((p2[1] - p1[1]) / 2),
+]
+
 
 
 
@@ -4332,12 +4362,12 @@ const sortDepth = (a, b) => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gl_matrix_common__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gl_matrix_mat2__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__gl_matrix_mat2d__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gl_matrix_mat2__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__gl_matrix_mat2d__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gl_matrix_mat3__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__gl_matrix_mat4__ = __webpack_require__(114);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gl_matrix_quat__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__gl_matrix_vec2__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__gl_matrix_mat4__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gl_matrix_quat__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__gl_matrix_vec2__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__gl_matrix_vec3__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__gl_matrix_vec4__ = __webpack_require__(30);
 /* unused harmony reexport glMatrix */
