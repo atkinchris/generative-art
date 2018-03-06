@@ -13,6 +13,11 @@ const worldTransform = vec3.fromValues(size / 2, (size / 2) * -1, size / 2)
 
 container.appendChild(canvas)
 
+const midPoint = (p1, p2) => [
+  p1[0] + ((p2[0] - p1[0]) / 2),
+  p1[1] + ((p2[1] - p1[1]) / 2),
+]
+
 const setup = () => {
   canvas.width = width
   canvas.height = height
@@ -40,7 +45,9 @@ const draw = (angle = 0.5) => {
       if (vIndex === 0) {
         ctx.moveTo(vertex[0], vertex[1])
       } else {
-        ctx.lineTo(vertex[0], vertex[1])
+        const next = face[(vIndex + 1) % face.length]
+        const mid = midPoint(vertex, next)
+        ctx.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
       }
     })
 
