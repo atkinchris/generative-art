@@ -2,7 +2,9 @@ import { vec3, mat4 } from 'gl-matrix'
 
 import { buildGeometry, midPoint } from './geometry'
 
-const worldTransform = vec3.fromValues(100, 100 * -1, 100)
+const size = 40
+
+const worldScale = vec3.fromValues(size, -size, size)
 
 const drawLeaf = (ctx, options) => {
   const {
@@ -21,13 +23,33 @@ const drawLeaf = (ctx, options) => {
     const vertex = vertices[index]
 
     const transform = mat4.create()
-    mat4.translate(transform, transform, vec3.fromValues(x, y, z)) // Move to world position
-    mat4.scale(transform, transform, scale) // Scale as required
-    mat4.scale(transform, transform, worldTransform) // Scale to world cooridinates
-    mat4.rotateY(transform, transform, rY) // Rotate around stem
-    mat4.rotateZ(transform, transform, rZ) // Rotate up/down
-    mat4.rotateX(transform, transform, rX) // Rotate to vertical
-    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0)) // Move origin
+    // Move to world position
+    mat4.translate(transform, transform, vec3.fromValues(x, y, z))
+
+    // Scale to world space
+    mat4.scale(transform, transform, worldScale)
+
+    // Flip y co-ordinates for world space
+    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0))
+
+    // Rotate around origin, as required
+    mat4.translate(transform, transform, vec3.fromValues(0, 1, 0))
+    mat4.rotateZ(transform, transform, rZ)
+    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0))
+
+    // Rotate around axis, as required
+    mat4.rotateY(transform, transform, rY)
+
+    // Scale around y center, as required
+    mat4.translate(transform, transform, vec3.fromValues(0, 1, 0))
+    mat4.scale(transform, transform, scale)
+    mat4.translate(transform, transform, vec3.fromValues(0, -1, 0))
+
+    // Rotate around x, y center to correct vertical alignment
+    mat4.translate(transform, transform, vec3.fromValues(1, 1, 0))
+    mat4.rotateX(transform, transform, rX)
+    mat4.translate(transform, transform, vec3.fromValues(-1, -1, 0))
+
     vec3.transformMat4(vertex, vertex, transform)
   }
 
