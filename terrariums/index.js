@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 111);
+/******/ 	return __webpack_require__(__webpack_require__.s = 112);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -143,12 +143,14 @@ function equals(a, b) {
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__leaf__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__leaf__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__geometry__ = __webpack_require__(31);
+
 
 
 const container = document.querySelector('.container')
@@ -157,6 +159,9 @@ const ctx = canvas.getContext('2d')
 
 const width = 400
 const height = 400
+
+const randomAngle = () => Math.PI * (Math.random() - 0.5)
+const randomOffshoot = direction => ((Math.PI / 3) * Math.random()) - ((Math.PI / 6) * direction)
 
 container.appendChild(canvas)
 
@@ -168,8 +173,40 @@ const setup = () => {
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: 200, y: 100, rY: -0.5, rZ: 0.4 })
-  Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: 200, y: 100, rY: 1.0, rZ: -0.3 })
+  const branch = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["b" /* interpolate */])([
+    [25, 25],
+    [90, 120],
+    [200, 200],
+    [300, 320],
+    [350, 350],
+  ])
+
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, width, height)
+
+  branch.forEach((point, index) => {
+    if (index === 0) {
+      ctx.moveTo(point[0], point[1])
+    }
+
+    if (index === branch.length - 1) {
+      return
+    }
+
+    const next = branch[index + 1]
+    const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["c" /* midPoint */])(point, next)
+
+    ctx.strokeStyle = 'green'
+    ctx.lineWidth = 4
+    ctx.filter = 'blur(1px)'
+    ctx.quadraticCurveTo(point[0], point[1], mid[0], mid[1])
+    ctx.lineTo(mid[0] + 5, mid[1] + 5)
+    ctx.stroke()
+
+    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(1) })
+    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(-1) })
+    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0] + 5, y: mid[1] + 5, rY: randomAngle(), rZ: randomOffshoot(-1) })
+  })
 }
 
 setup()
@@ -178,17 +215,19 @@ draw()
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__geometry__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__geometry__ = __webpack_require__(31);
 
 
 
 
-const worldTransform = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(100, 100 * -1, 100)
+const size = 30
+
+const worldScale = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(size, -size, size)
 
 const drawLeaf = (ctx, options) => {
   const {
@@ -207,13 +246,33 @@ const drawLeaf = (ctx, options) => {
     const vertex = vertices[index]
 
     const transform = __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].create()
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(x, y, z)) // Move to world position
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, scale) // Scale as required
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, worldTransform) // Scale to world cooridinates
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateY(transform, transform, rY) // Rotate around stem
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateZ(transform, transform, rZ) // Rotate up/down
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateX(transform, transform, rX) // Rotate to vertical
-    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, -1, 0)) // Move origin
+    // Move to world position
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(x, y, z))
+
+    // Scale to world space
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, worldScale)
+
+    // Flip y co-ordinates for world space
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, -1, 0))
+
+    // Rotate around origin, as required
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, 1, 0))
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateZ(transform, transform, rZ)
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, -1, 0))
+
+    // Rotate around axis, as required
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateY(transform, transform, rY)
+
+    // Scale around y center, as required
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, 1, 0))
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].scale(transform, transform, scale)
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(0, -1, 0))
+
+    // Rotate around x, y center to correct vertical alignment
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(1, 1, 0))
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].rotateX(transform, transform, rX)
+    __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["a" /* mat4 */].translate(transform, transform, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(-1, -1, 0))
+
     __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].transformMat4(vertex, vertex, transform)
   }
 
@@ -225,7 +284,7 @@ const drawLeaf = (ctx, options) => {
         ctx.moveTo(vertex[0], vertex[1])
       } else {
         const next = face[(vIndex + 1) % face.length]
-        const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["b" /* midPoint */])(vertex, next)
+        const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["c" /* midPoint */])(vertex, next)
         ctx.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
       }
     })
@@ -242,6 +301,7 @@ const drawLeaf = (ctx, options) => {
     ctx.closePath()
     ctx.fillStyle = gradient
     ctx.strokeStyle = 'green'
+    ctx.lineWidth = 1
     ctx.filter = 'blur(1px)'
     ctx.fill()
     ctx.stroke()
@@ -253,7 +313,7 @@ const drawLeaf = (ctx, options) => {
 
 /***/ }),
 
-/***/ 113:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -723,7 +783,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 114:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1225,7 +1285,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 115:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2964,7 +3024,7 @@ const sub = subtract;
 
 /***/ }),
 
-/***/ 116:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3655,7 +3715,7 @@ const setAxes = (function() {
 
 /***/ }),
 
-/***/ 117:
+/***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4298,76 +4358,17 @@ const forEach = (function() {
 
 /***/ }),
 
-/***/ 118:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export sortDepth */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return buildGeometry; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return midPoint; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
-
-
-const z = v => (Math.sin((Math.PI / 2) * v[1]) - Math.cos((Math.PI / 2) * v[0])) / 2
-
-const buildGeometry = () => {
-  const rightHalf = [
-    [0.0, 1.0], // Stem
-    [0.05, 1.0], // Stem
-    [0.04, 0.7], // Stem
-    [0.25, 0.6],
-    [0.52, 0.15], // Upper-outer
-    [0.35, -0.5], // Lower-outer
-    [0.0, -1.0], // Point
-    [0.0, -0.75],
-    [0.0, -0.5],
-    [0.0, -0.25],
-    [0.0, 0.0],
-    [0.0, 0.25],
-    [0.0, 0.5],
-  ]
-  const vertices = [
-    ...rightHalf,
-    ...rightHalf.map(v => [v[0] * -1, v[1], v[2]]),
-  ].map(v => __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(v[0], v[1], z(v)))
-
-  const faces = [
-    vertices.slice(0, rightHalf.length),
-    vertices.slice(rightHalf.length),
-  ]
-
-  return {
-    vertices,
-    faces,
-  }
-}
-
-const sortDepth = (a, b) => {
-  const avg = arr => arr.reduce((out, value) => out + value[2], 0) / arr.length
-  return avg(a) < avg(b)
-}
-
-const midPoint = (p1, p2) => [
-  p1[0] + ((p2[0] - p1[0]) / 2),
-  p1[1] + ((p2[1] - p1[1]) / 2),
-]
-
-
-
-
-/***/ }),
-
 /***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gl_matrix_common__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gl_matrix_mat2__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__gl_matrix_mat2d__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gl_matrix_mat2__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__gl_matrix_mat2d__ = __webpack_require__(115);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gl_matrix_mat3__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__gl_matrix_mat4__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gl_matrix_quat__ = __webpack_require__(116);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__gl_matrix_vec2__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__gl_matrix_mat4__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__gl_matrix_quat__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__gl_matrix_vec2__ = __webpack_require__(118);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__gl_matrix_vec3__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__gl_matrix_vec4__ = __webpack_require__(30);
 /* unused harmony reexport glMatrix */
@@ -6727,6 +6728,77 @@ const forEach = (function() {
   };
 })();
 /* unused harmony export forEach */
+
+
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export sortDepth */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return buildGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return midPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return interpolate; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
+
+
+const z = v => (Math.sin((Math.PI / 2) * v[1]) - Math.cos((Math.PI / 2) * v[0])) / 2
+
+const buildGeometry = () => {
+  const rightHalf = [
+    [0.0, 1.0], // Stem
+    [0.05, 1.0], // Stem
+    [0.04, 0.7], // Stem
+    [0.25, 0.6],
+    [0.52, 0.15], // Upper-outer
+    [0.35, -0.5], // Lower-outer
+    [0.0, -1.0], // Point
+    [0.0, -0.75],
+    [0.0, -0.5],
+    [0.0, -0.25],
+    [0.0, 0.0],
+    [0.0, 0.25],
+    [0.0, 0.5],
+  ]
+  const vertices = [
+    ...rightHalf,
+    ...rightHalf.map(v => [v[0] * -1, v[1], v[2]]),
+  ].map(v => __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].fromValues(v[0], v[1], z(v)))
+
+  const faces = [
+    vertices.slice(0, rightHalf.length),
+    vertices.slice(rightHalf.length),
+  ]
+
+  return {
+    vertices,
+    faces,
+  }
+}
+
+const sortDepth = (a, b) => {
+  const avg = arr => arr.reduce((out, value) => out + value[2], 0) / arr.length
+  return avg(a) < avg(b)
+}
+
+const midPoint = (p1, p2) => [
+  p1[0] + ((p2[0] - p1[0]) / 2),
+  p1[1] + ((p2[1] - p1[1]) / 2),
+]
+
+const interpolate = points => points.reduce((out, point, i) => {
+  if (i === points.length - 1) return out
+
+  const next = points[(i + 1) % points.length]
+  const mid = midPoint(point, next)
+  out.push(point)
+  out.push(mid)
+
+  return out
+}, [])
+
 
 
 

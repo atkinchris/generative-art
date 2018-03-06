@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -268,7 +268,7 @@ generateOrientationProc()
 /* WEBPACK VAR INJECTION */(function(global, Buffer) {
 
 var bits = __webpack_require__(5)
-var dup = __webpack_require__(49)
+var dup = __webpack_require__(50)
 
 //Legacy pool support
 if(!global.__TYPEDARRAY_POOL) {
@@ -982,7 +982,7 @@ function twoProduct(a, b, result) {
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(77).Buffer;
+    Buffer = __webpack_require__(78).Buffer;
   } catch (e) {
   }
 
@@ -4358,7 +4358,7 @@ function twoProduct(a, b, result) {
   };
 })(typeof module === 'undefined' || module, this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(76)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77)(module)))
 
 /***/ }),
 /* 8 */
@@ -4545,10 +4545,10 @@ function scaleLinearExpansion(e, scale) {
 "use strict";
 
 
-var isRat = __webpack_require__(75)
+var isRat = __webpack_require__(76)
 var isBN = __webpack_require__(21)
 var num2bn = __webpack_require__(22)
-var str2bn = __webpack_require__(78)
+var str2bn = __webpack_require__(79)
 var rationalize = __webpack_require__(4)
 var div = __webpack_require__(23)
 
@@ -4837,9 +4837,9 @@ module.exports = g;
 
 
 
-var base64 = __webpack_require__(46)
-var ieee754 = __webpack_require__(47)
-var isArray = __webpack_require__(48)
+var base64 = __webpack_require__(47)
+var ieee754 = __webpack_require__(48)
+var isArray = __webpack_require__(49)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -6821,7 +6821,7 @@ module.exports = {
 
 var pool  = __webpack_require__(2)
 var bits  = __webpack_require__(5)
-var isort = __webpack_require__(70)
+var isort = __webpack_require__(71)
 
 //Flag for blue
 var BLUE_FLAG = (1<<28)
@@ -7412,14 +7412,15 @@ function edgeToAdjacency(edges, numVertices) {
 /* 38 */,
 /* 39 */,
 /* 40 */,
-/* 41 */
+/* 41 */,
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vectorize_text___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vectorize_text__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__triangle__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__triangle__ = __webpack_require__(109);
 
 
 
@@ -7528,7 +7529,7 @@ new p5(sketch, canvas) // eslint-disable-line no-new
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7536,7 +7537,7 @@ new p5(sketch, canvas) // eslint-disable-line no-new
 
 module.exports = createText
 
-var vectorizeText = __webpack_require__(43)
+var vectorizeText = __webpack_require__(44)
 var defaultCanvas = null
 var defaultContext = null
 
@@ -7560,7 +7561,7 @@ function createText(str, options) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7569,12 +7570,12 @@ function createText(str, options) {
 module.exports = vectorizeText
 module.exports.processPixels = processPixels
 
-var surfaceNets = __webpack_require__(44)
-var ndarray = __webpack_require__(60)
-var simplify = __webpack_require__(63)
-var cleanPSLG = __webpack_require__(67)
-var cdt2d = __webpack_require__(91)
-var toPolygonCrappy = __webpack_require__(97)
+var surfaceNets = __webpack_require__(45)
+var ndarray = __webpack_require__(61)
+var simplify = __webpack_require__(64)
+var cleanPSLG = __webpack_require__(68)
+var cdt2d = __webpack_require__(92)
+var toPolygonCrappy = __webpack_require__(98)
 
 function transformPositions(positions, options, size) {
   var align = options.textAlign || "start"
@@ -7771,7 +7772,7 @@ function vectorizeText(str, canvas, context, options) {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7779,9 +7780,9 @@ function vectorizeText(str, canvas, context, options) {
 
 module.exports = surfaceNets
 
-var generateContourExtractor = __webpack_require__(45)
-var triangulateCube = __webpack_require__(50)
-var zeroCrossings = __webpack_require__(55)
+var generateContourExtractor = __webpack_require__(46)
+var triangulateCube = __webpack_require__(51)
+var zeroCrossings = __webpack_require__(56)
 
 function buildSurfaceNets(order, dtype) {
   var dimension = order.length
@@ -7984,7 +7985,7 @@ function surfaceNets(array,level) {
 }
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8405,7 +8406,7 @@ function createSurfaceExtractor(args) {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8526,7 +8527,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -8616,7 +8617,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -8627,7 +8628,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8682,7 +8683,7 @@ function dupe(count, value) {
 module.exports = dupe
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8690,9 +8691,9 @@ module.exports = dupe
 
 module.exports = triangulateCube
 
-var perm = __webpack_require__(51)
-var sgn = __webpack_require__(53)
-var gamma = __webpack_require__(54)
+var perm = __webpack_require__(52)
+var sgn = __webpack_require__(54)
+var gamma = __webpack_require__(55)
 
 function triangulateCube(dimension) {
   if(dimension < 0) {
@@ -8721,14 +8722,14 @@ function triangulateCube(dimension) {
 }
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var pool = __webpack_require__(2)
-var inverse = __webpack_require__(52)
+var inverse = __webpack_require__(53)
 
 function rank(permutation) {
   var n = permutation.length
@@ -8813,7 +8814,7 @@ exports.unrank = unrank
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8830,7 +8831,7 @@ function invertPermutation(pi, result) {
 module.exports = invertPermutation
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8887,7 +8888,7 @@ function permutationSign(p) {
 }
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 // transliterated from the python snippet here:
@@ -8960,7 +8961,7 @@ module.exports.log = lngamma;
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8968,7 +8969,7 @@ module.exports.log = lngamma;
 
 module.exports = findZeroCrossings
 
-var core = __webpack_require__(56)
+var core = __webpack_require__(57)
 
 function findZeroCrossings(array, level) {
   var cross = []
@@ -8978,10 +8979,10 @@ function findZeroCrossings(array, level) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(57)({
+module.exports = __webpack_require__(58)({
     args: ['array', {
         offset: [1],
         array: 0
@@ -9034,13 +9035,13 @@ module.exports = __webpack_require__(57)({
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createThunk = __webpack_require__(58)
+var createThunk = __webpack_require__(59)
 
 function Procedure() {
   this.argTypes = []
@@ -9150,7 +9151,7 @@ module.exports = compileCwise
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9179,7 +9180,7 @@ module.exports = compileCwise
 //   return thunk(compile.bind1(proc))
 // }
 
-var compile = __webpack_require__(59)
+var compile = __webpack_require__(60)
 
 function createThunk(proc) {
   var code = ["'use strict'", "var CACHED={}"]
@@ -9243,7 +9244,7 @@ module.exports = createThunk
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9608,11 +9609,11 @@ module.exports = generateCWiseOp
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var iota = __webpack_require__(61)
-var isBuffer = __webpack_require__(62)
+var iota = __webpack_require__(62)
+var isBuffer = __webpack_require__(63)
 
 var hasTypedArrays  = ((typeof Float64Array) !== "undefined")
 
@@ -9957,7 +9958,7 @@ module.exports = wrappedNDArrayCtor
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9974,7 +9975,7 @@ function iota(n) {
 module.exports = iota
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /*!
@@ -10001,7 +10002,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10010,7 +10011,7 @@ function isSlowBuffer (obj) {
 module.exports = simplifyPolygon
 
 var orient = __webpack_require__(1)
-var sc = __webpack_require__(64)
+var sc = __webpack_require__(65)
 
 function errorWeight(base, a, b) {
   var area = Math.abs(orient(base, a, b))
@@ -10278,14 +10279,14 @@ function simplifyPolygon(cells, positions, minArea) {
 }
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
  "use restrict";
 
-var bits      = __webpack_require__(65)
-  , UnionFind = __webpack_require__(66)
+var bits      = __webpack_require__(66)
+  , UnionFind = __webpack_require__(67)
 
 //Returns the dimension of a cell complex
 function dimension(cells) {
@@ -10627,7 +10628,7 @@ exports.connectedComponents = connectedComponents
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10838,7 +10839,7 @@ exports.nextCombination = function(v) {
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10900,7 +10901,7 @@ UnionFind.prototype.link = function(x, y) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10908,16 +10909,16 @@ UnionFind.prototype.link = function(x, y) {
 
 module.exports = cleanPSLG
 
-var UnionFind = __webpack_require__(68)
-var boxIntersect = __webpack_require__(69)
-var segseg = __webpack_require__(74)
+var UnionFind = __webpack_require__(69)
+var boxIntersect = __webpack_require__(70)
+var segseg = __webpack_require__(75)
 var rat = __webpack_require__(11)
-var ratCmp = __webpack_require__(79)
-var ratToFloat = __webpack_require__(80)
-var ratVec = __webpack_require__(83)
-var nextafter = __webpack_require__(84)
+var ratCmp = __webpack_require__(80)
+var ratToFloat = __webpack_require__(81)
+var ratVec = __webpack_require__(84)
+var nextafter = __webpack_require__(85)
 
-var solveIntersection = __webpack_require__(85)
+var solveIntersection = __webpack_require__(86)
 
 // Bounds on a rational number when rounded to a float
 function boundRat (r) {
@@ -11288,7 +11289,7 @@ function cleanPSLG (points, edges, colors) {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11356,7 +11357,7 @@ proto.link = function(x, y) {
 }
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11366,7 +11367,7 @@ module.exports = boxIntersectWrapper
 
 var pool = __webpack_require__(2)
 var sweep = __webpack_require__(19)
-var boxIntersectIter = __webpack_require__(71)
+var boxIntersectIter = __webpack_require__(72)
 
 function boxEmpty(d, box) {
   for(var j=0; j<d; ++j) {
@@ -11500,7 +11501,7 @@ function boxIntersectWrapper(arg0, arg1, arg2) {
 }
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11742,7 +11743,7 @@ function quickSort(left, right, data) {
 }
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11752,11 +11753,11 @@ module.exports = boxIntersectIter
 
 var pool = __webpack_require__(2)
 var bits = __webpack_require__(5)
-var bruteForce = __webpack_require__(72)
+var bruteForce = __webpack_require__(73)
 var bruteForcePartial = bruteForce.partial
 var bruteForceFull = bruteForce.full
 var sweep = __webpack_require__(19)
-var findMedian = __webpack_require__(73)
+var findMedian = __webpack_require__(74)
 var genPartition = __webpack_require__(20)
 
 //Twiddle parameters
@@ -12242,7 +12243,7 @@ function boxIntersectIter(
 }
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12392,7 +12393,7 @@ exports.partial = bruteForcePlanner(false)
 exports.full    = bruteForcePlanner(true)
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12540,7 +12541,7 @@ function findMedian(d, axis, start, end, boxes, ids) {
 }
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12593,7 +12594,7 @@ function segmentsIntersect(a0, a1, b0, b1) {
 }
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12609,7 +12610,7 @@ function isRat(x) {
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -12637,13 +12638,13 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12659,7 +12660,7 @@ function str2BN(x) {
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12673,14 +12674,14 @@ function cmp(a, b) {
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bn2num = __webpack_require__(81)
-var ctz = __webpack_require__(82)
+var bn2num = __webpack_require__(82)
+var ctz = __webpack_require__(83)
 
 module.exports = roundRat
 
@@ -12716,7 +12717,7 @@ function roundRat (f) {
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12746,7 +12747,7 @@ function bn2num(b) {
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12772,7 +12773,7 @@ function ctzNumber(x) {
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12792,7 +12793,7 @@ function float2rat(v) {
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12840,7 +12841,7 @@ function nextafter(x, y) {
 }
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12851,10 +12852,10 @@ module.exports = solveIntersection
 var ratMul = __webpack_require__(24)
 var ratDiv = __webpack_require__(23)
 var ratSub = __webpack_require__(25)
-var ratSign = __webpack_require__(86)
-var rvSub = __webpack_require__(87)
-var rvAdd = __webpack_require__(88)
-var rvMuls = __webpack_require__(90)
+var ratSign = __webpack_require__(87)
+var rvSub = __webpack_require__(88)
+var rvAdd = __webpack_require__(89)
+var rvMuls = __webpack_require__(91)
 
 function ratPerp (a, b) {
   return ratSub(ratMul(a[0], b[1]), ratMul(a[1], b[0]))
@@ -12889,7 +12890,7 @@ function solveIntersection (a, b, c, d) {
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12905,7 +12906,7 @@ function sign(x) {
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12926,13 +12927,13 @@ function sub(a, b) {
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bnadd = __webpack_require__(89)
+var bnadd = __webpack_require__(90)
 
 module.exports = add
 
@@ -12947,7 +12948,7 @@ function add (a, b) {
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12965,7 +12966,7 @@ function add(a, b) {
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12988,16 +12989,16 @@ function muls(a, x) {
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var monotoneTriangulate = __webpack_require__(92)
-var makeIndex = __webpack_require__(93)
-var delaunayFlip = __webpack_require__(94)
-var filterTriangulation = __webpack_require__(96)
+var monotoneTriangulate = __webpack_require__(93)
+var makeIndex = __webpack_require__(94)
+var delaunayFlip = __webpack_require__(95)
+var filterTriangulation = __webpack_require__(97)
 
 module.exports = cdt2d
 
@@ -13077,7 +13078,7 @@ function cdt2d(points, edges, options) {
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13271,7 +13272,7 @@ function monotoneTriangulate(points, edges) {
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13382,13 +13383,13 @@ function createTriangulation(numVerts, edges) {
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var inCircle = __webpack_require__(95)[4]
+var inCircle = __webpack_require__(96)[4]
 var bsearch = __webpack_require__(8)
 
 module.exports = delaunayRefine
@@ -13504,7 +13505,7 @@ function delaunayRefine(points, triangulation) {
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13677,7 +13678,7 @@ function generateInSphereTest() {
 generateInSphereTest()
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13864,7 +13865,7 @@ function classifyFaces(triangulation, target, infinity) {
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13873,12 +13874,12 @@ function classifyFaces(triangulation, target, infinity) {
 module.exports = planarGraphToPolyline
 
 var e2a = __webpack_require__(26)
-var planarDual = __webpack_require__(98)
-var preprocessPolygon = __webpack_require__(102)
+var planarDual = __webpack_require__(99)
+var preprocessPolygon = __webpack_require__(103)
 var twoProduct = __webpack_require__(6)
 var robustSum = __webpack_require__(3)
 var uniq = __webpack_require__(9)
-var trimLeaves = __webpack_require__(107)
+var trimLeaves = __webpack_require__(108)
 
 function makeArray(length, fill) {
   var result = new Array(length)
@@ -14074,7 +14075,7 @@ function planarGraphToPolyline(edges, positions) {
 }
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14082,7 +14083,7 @@ function planarGraphToPolyline(edges, positions) {
 
 module.exports = planarDual
 
-var compareAngle = __webpack_require__(99)
+var compareAngle = __webpack_require__(100)
 
 function planarDual(cells, positions) {
 
@@ -14210,7 +14211,7 @@ function planarDual(cells, positions) {
 }
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14219,9 +14220,9 @@ function planarDual(cells, positions) {
 module.exports = compareAngle
 
 var orient = __webpack_require__(1)
-var sgn = __webpack_require__(100)
+var sgn = __webpack_require__(101)
 var twoSum = __webpack_require__(17)
-var robustProduct = __webpack_require__(101)
+var robustProduct = __webpack_require__(102)
 var robustSum = __webpack_require__(3)
 
 function testInterior(a, b, c) {
@@ -14301,7 +14302,7 @@ function compareAngle(a, b, c, d) {
 }
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14314,7 +14315,7 @@ module.exports = function signum(x) {
 }
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14349,14 +14350,14 @@ function robustProduct(a, b) {
 }
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = preprocessPolygon
 
 var orient = __webpack_require__(1)[3]
-var makeSlabs = __webpack_require__(103)
-var makeIntervalTree = __webpack_require__(106)
+var makeSlabs = __webpack_require__(104)
+var makeIntervalTree = __webpack_require__(107)
 var bsearch = __webpack_require__(14)
 
 function visitInterval() {
@@ -14505,7 +14506,7 @@ function preprocessPolygon(loops) {
 }
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14514,9 +14515,9 @@ function preprocessPolygon(loops) {
 module.exports = createSlabDecomposition
 
 var bounds = __webpack_require__(14)
-var createRBTree = __webpack_require__(104)
+var createRBTree = __webpack_require__(105)
 var orient = __webpack_require__(1)
-var orderSegments = __webpack_require__(105)
+var orderSegments = __webpack_require__(106)
 
 function SlabDecomposition(slabs, coordinates, horizontal) {
   this.slabs = slabs
@@ -14741,7 +14742,7 @@ function createSlabDecomposition(segments) {
 }
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15743,7 +15744,7 @@ function createRBTree(compare) {
 }
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15844,7 +15845,7 @@ function orderSegments(b, a) {
 }
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16216,7 +16217,7 @@ function createWrapper(intervals) {
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16277,7 +16278,7 @@ function trimLeaves(edges, positions) {
 }
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
