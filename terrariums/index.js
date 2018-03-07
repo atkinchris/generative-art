@@ -4288,7 +4288,7 @@ const drawLeaf = (sourceContext, options) => {
     __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["b" /* vec3 */].transformMat4(vertex, vertex, transform)
   }
 
-  const colour = `rgb(0, ${Math.floor(Math.random() * 96) + 96}, 0)`
+  const colour = `hsl(122, 51%, ${Math.floor(Math.random() * 40) + 27}%)`
 
   const canvas = document.createElement('canvas')
   const layer = canvas.getContext('2d')
@@ -4412,7 +4412,11 @@ const drawPot = (ctx, x, y, width, height) => {
   const midX = left + (width / 2)
   const midY = (bottom - (height / 2))
 
-  ctx.fillStyle = 'orange'
+  const gradient = ctx.createLinearGradient(left, top, right, bottom)
+  gradient.addColorStop(0, '#FF5722')
+  gradient.addColorStop(1, '#FF8264')
+
+  ctx.fillStyle = gradient
   ctx.strokeStyle = 'rgba(16, 16, 16, 0.8)'
   ctx.lineWidth = 4
 
