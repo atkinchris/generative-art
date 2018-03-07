@@ -74,7 +74,7 @@
 var twoProduct = __webpack_require__(6)
 var robustSum = __webpack_require__(3)
 var robustScale = __webpack_require__(10)
-var robustSubtract = __webpack_require__(18)
+var robustSubtract = __webpack_require__(19)
 
 var NUM_EXPAND = 5
 
@@ -479,7 +479,7 @@ exports.clearCache = function clearCache() {
     BUFFER[i].length = 0
   }
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15), __webpack_require__(16).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(17).Buffer))
 
 /***/ }),
 /* 3 */
@@ -650,7 +650,7 @@ function linearExpansionSum(e, f) {
 "use strict";
 
 
-var num2bn = __webpack_require__(22)
+var num2bn = __webpack_require__(23)
 var sign = __webpack_require__(13)
 
 module.exports = rationalize
@@ -4490,7 +4490,7 @@ module.exports = unique
 
 
 var twoProduct = __webpack_require__(6)
-var twoSum = __webpack_require__(17)
+var twoSum = __webpack_require__(18)
 
 module.exports = scaleLinearExpansion
 
@@ -4546,11 +4546,11 @@ function scaleLinearExpansion(e, scale) {
 
 
 var isRat = __webpack_require__(76)
-var isBN = __webpack_require__(21)
-var num2bn = __webpack_require__(22)
+var isBN = __webpack_require__(22)
+var num2bn = __webpack_require__(23)
 var str2bn = __webpack_require__(79)
 var rationalize = __webpack_require__(4)
-var div = __webpack_require__(23)
+var div = __webpack_require__(24)
 
 module.exports = makeRational
 
@@ -4710,7 +4710,7 @@ module.exports.denormalized = function(n) {
   var hi = module.exports.hi(n)
   return !(hi & 0x7ff00000)
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17).Buffer))
 
 /***/ }),
 /* 13 */
@@ -4796,7 +4796,8 @@ module.exports = {
 
 
 /***/ }),
-/* 15 */
+/* 15 */,
+/* 16 */
 /***/ (function(module, exports) {
 
 var g;
@@ -4823,7 +4824,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6617,10 +6618,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6643,7 +6644,7 @@ function fastTwoSum(a, b, result) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6805,7 +6806,7 @@ function robustSubtract(e, f) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7245,7 +7246,7 @@ red_loop:
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7271,7 +7272,7 @@ function genPartition(predicate, args) {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7289,7 +7290,7 @@ function isBN(x) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7311,7 +7312,7 @@ function num2bn(x) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7327,7 +7328,7 @@ function div(a, b) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7343,7 +7344,7 @@ function mul(a, b) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7359,7 +7360,7 @@ function sub(a, b) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7398,7 +7399,6 @@ function edgeToAdjacency(edges, numVertices) {
 }
 
 /***/ }),
-/* 27 */,
 /* 28 */,
 /* 29 */,
 /* 30 */,
@@ -11366,7 +11366,7 @@ proto.link = function(x, y) {
 module.exports = boxIntersectWrapper
 
 var pool = __webpack_require__(2)
-var sweep = __webpack_require__(19)
+var sweep = __webpack_require__(20)
 var boxIntersectIter = __webpack_require__(72)
 
 function boxEmpty(d, box) {
@@ -11756,9 +11756,9 @@ var bits = __webpack_require__(5)
 var bruteForce = __webpack_require__(73)
 var bruteForcePartial = bruteForce.partial
 var bruteForceFull = bruteForce.full
-var sweep = __webpack_require__(19)
+var sweep = __webpack_require__(20)
 var findMedian = __webpack_require__(74)
-var genPartition = __webpack_require__(20)
+var genPartition = __webpack_require__(21)
 
 //Twiddle parameters
 var BRUTE_FORCE_CUTOFF    = 128       //Cut off for brute force search
@@ -12401,7 +12401,7 @@ exports.full    = bruteForcePlanner(true)
 
 module.exports = findMedian
 
-var genPartition = __webpack_require__(20)
+var genPartition = __webpack_require__(21)
 
 var partitionStartLessThan = genPartition('lo<p0', ['p0'])
 
@@ -12600,7 +12600,7 @@ function segmentsIntersect(a0, a1, b0, b1) {
 "use strict";
 
 
-var isBN = __webpack_require__(21)
+var isBN = __webpack_require__(22)
 
 module.exports = isRat
 
@@ -12849,9 +12849,9 @@ function nextafter(x, y) {
 
 module.exports = solveIntersection
 
-var ratMul = __webpack_require__(24)
-var ratDiv = __webpack_require__(23)
-var ratSub = __webpack_require__(25)
+var ratMul = __webpack_require__(25)
+var ratDiv = __webpack_require__(24)
+var ratSub = __webpack_require__(26)
 var ratSign = __webpack_require__(87)
 var rvSub = __webpack_require__(88)
 var rvAdd = __webpack_require__(89)
@@ -12912,7 +12912,7 @@ function sign(x) {
 "use strict";
 
 
-var bnsub = __webpack_require__(25)
+var bnsub = __webpack_require__(26)
 
 module.exports = sub
 
@@ -12973,7 +12973,7 @@ function add(a, b) {
 
 
 var rat = __webpack_require__(11)
-var mul = __webpack_require__(24)
+var mul = __webpack_require__(25)
 
 module.exports = muls
 
@@ -13513,7 +13513,7 @@ function delaunayRefine(points, triangulation) {
 
 var twoProduct = __webpack_require__(6)
 var robustSum = __webpack_require__(3)
-var robustDiff = __webpack_require__(18)
+var robustDiff = __webpack_require__(19)
 var robustScale = __webpack_require__(10)
 
 var NUM_EXPAND = 6
@@ -13873,7 +13873,7 @@ function classifyFaces(triangulation, target, infinity) {
 
 module.exports = planarGraphToPolyline
 
-var e2a = __webpack_require__(26)
+var e2a = __webpack_require__(27)
 var planarDual = __webpack_require__(99)
 var preprocessPolygon = __webpack_require__(103)
 var twoProduct = __webpack_require__(6)
@@ -14221,7 +14221,7 @@ module.exports = compareAngle
 
 var orient = __webpack_require__(1)
 var sgn = __webpack_require__(101)
-var twoSum = __webpack_require__(17)
+var twoSum = __webpack_require__(18)
 var robustProduct = __webpack_require__(102)
 var robustSum = __webpack_require__(3)
 
@@ -16225,7 +16225,7 @@ function createWrapper(intervals) {
 
 module.exports = trimLeaves
 
-var e2a = __webpack_require__(26)
+var e2a = __webpack_require__(27)
 
 function trimLeaves(edges, positions) {
   var adj = e2a(edges, positions.length)
