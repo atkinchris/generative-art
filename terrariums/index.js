@@ -160,8 +160,14 @@ const ctx = canvas.getContext('2d')
 const width = 400
 const height = 400
 
+const maxBetween = (min, max) => (Math.random() * (max - min)) + min
 const randomAngle = () => Math.PI * (Math.random() - 0.5)
-const randomOffshoot = direction => ((Math.PI / 3) * Math.random()) - ((Math.PI / 6) * direction)
+const randomOffshoot = (start) => {
+  const angle = (Math.PI / 3) * Math.random()
+  const direction = Math.random() - 0.5
+
+  return direction > 0 ? start - angle : start + angle
+}
 
 container.appendChild(canvas)
 
@@ -173,16 +179,13 @@ const setup = () => {
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  const branch = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["b" /* interpolate */])([
+  const branch = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["c" /* interpolate */])([
     [25, 25],
     [90, 120],
     [200, 200],
     [300, 320],
     [350, 350],
   ])
-
-  ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, width, height)
 
   branch.forEach((point, index) => {
     if (index === 0) {
@@ -194,18 +197,24 @@ const draw = () => {
     }
 
     const next = branch[index + 1]
-    const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["c" /* midPoint */])(point, next)
+    const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["d" /* midPoint */])(point, next)
+    const direction = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["a" /* angleBetween */])([0, 0], point)
+    const leaves = maxBetween(2, 4)
 
     ctx.strokeStyle = 'green'
     ctx.lineWidth = 4
     ctx.filter = 'blur(1px)'
     ctx.quadraticCurveTo(point[0], point[1], mid[0], mid[1])
-    ctx.lineTo(mid[0] + 5, mid[1] + 5)
     ctx.stroke()
 
-    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(1) })
-    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(-1) })
-    Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, { x: mid[0] + 5, y: mid[1] + 5, rY: randomAngle(), rZ: randomOffshoot(-1) })
+    for (let l = 0; l < leaves; l += 1) {
+      Object(__WEBPACK_IMPORTED_MODULE_0__leaf__["a" /* default */])(ctx, {
+        x: mid[0],
+        y: mid[1],
+        rY: randomAngle(),
+        rZ: randomOffshoot(direction),
+      })
+    }
   })
 }
 
@@ -240,7 +249,7 @@ const drawLeaf = (ctx, options) => {
     rZ = 0,
   } = options
 
-  const { vertices, faces } = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["a" /* buildGeometry */])()
+  const { vertices, faces } = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["b" /* buildGeometry */])()
 
   for (let index = 0; index < vertices.length; index += 1) {
     const vertex = vertices[index]
@@ -284,7 +293,7 @@ const drawLeaf = (ctx, options) => {
         ctx.moveTo(vertex[0], vertex[1])
       } else {
         const next = face[(vIndex + 1) % face.length]
-        const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["c" /* midPoint */])(vertex, next)
+        const mid = Object(__WEBPACK_IMPORTED_MODULE_1__geometry__["d" /* midPoint */])(vertex, next)
         ctx.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
       }
     })
@@ -6738,9 +6747,10 @@ const forEach = (function() {
 
 "use strict";
 /* unused harmony export sortDepth */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return buildGeometry; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return midPoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return interpolate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return buildGeometry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return midPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return angleBetween; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return interpolate; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_gl_matrix__ = __webpack_require__(27);
 
 
@@ -6787,6 +6797,8 @@ const midPoint = (p1, p2) => [
   p1[0] + ((p2[0] - p1[0]) / 2),
   p1[1] + ((p2[1] - p1[1]) / 2),
 ]
+
+const angleBetween = (p1, p2) => Math.atan2(p2[1] - p1[1], p2[0] - p1[0])
 
 const interpolate = points => points.reduce((out, point, i) => {
   if (i === points.length - 1) return out
