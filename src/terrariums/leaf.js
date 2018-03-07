@@ -54,7 +54,7 @@ const drawLeaf = (sourceContext, options) => {
     vec3.transformMat4(vertex, vertex, transform)
   }
 
-  const colour = `rgb(0, ${Math.floor(Math.random() * 96) + 96}, 0)`
+  const colour = `hsl(122, 51%, ${Math.floor(Math.random() * 40) + 27}%)`
 
   const canvas = document.createElement('canvas')
   const layer = canvas.getContext('2d')

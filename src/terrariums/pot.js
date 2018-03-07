@@ -9,7 +9,11 @@ const drawPot = (ctx, x, y, width, height) => {
   const midX = left + (width / 2)
   const midY = (bottom - (height / 2))
 
-  ctx.fillStyle = 'orange'
+  const gradient = ctx.createLinearGradient(left, top, right, bottom)
+  gradient.addColorStop(0, '#FF5722')
+  gradient.addColorStop(1, '#FF8264')
+
+  ctx.fillStyle = gradient
   ctx.strokeStyle = 'rgba(16, 16, 16, 0.8)'
   ctx.lineWidth = 4
 
