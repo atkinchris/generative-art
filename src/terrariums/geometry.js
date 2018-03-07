@@ -57,10 +57,18 @@ const interpolate = points => points.reduce((out, point, i) => {
   return out
 }, [])
 
+const isInside = (bounds, point) => (
+  point[0] > bounds.left &&
+  point[0] < bounds.right &&
+  point[1] > bounds.top &&
+  point[1] < bounds.bottom
+)
+
 export {
   sortDepth,
   buildGeometry,
   midPoint,
   angleBetween,
   interpolate,
+  isInside,
 }

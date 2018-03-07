@@ -1,6 +1,6 @@
-import { midPoint, angleBetween } from './geometry'
+import { midPoint, angleBetween, isInside } from './geometry'
 import drawLeaf from './leaf'
-import { randomBetween, randomAngle, randomOffshoot } from './random'
+import { randomBetween, randomAngle } from './random'
 
 const drawBranch = (ctx, branch) => {
   ctx.beginPath()
@@ -25,20 +25,53 @@ const drawBranch = (ctx, branch) => {
   return branch
 }
 
-const drawLeaves = (ctx, branch) => {
+const drawLeaves = (ctx, branch, bounds) => {
+  if (branch.length < 10) {
+    const scale = randomBetween(5, 7) / 10
+    drawLeaf(ctx, {
+      x: branch[3][0],
+      y: branch[3][1],
+      rY: randomAngle(),
+      rZ: randomAngle() - Math.PI,
+      scale: [scale, scale, 1],
+    })
+
+    const point = branch[branch.length - 1]
+    const direction = angleBetween([point[0], -1], point)
+
+    drawLeaf(ctx, {
+      x: point[0],
+      y: point[1],
+      rY: randomAngle(),
+      rZ: direction - (Math.PI / 3.5),
+      scale: [scale, scale, 1],
+    })
+    drawLeaf(ctx, {
+      x: point[0],
+      y: point[1],
+      rY: randomAngle(),
+      rZ: direction + (Math.PI / 3.5),
+      scale: [scale, scale, 1],
+    })
+
+    return branch
+  }
+
   branch.forEach((point) => {
     const scale = randomBetween(5, 7) / 10
-    const direction = angleBetween([point[0], -1], point)
+    const direction = Math.atan2(point[0], point[1])
     const leaves = randomBetween(0, 2)
 
     for (let l = 0; l < leaves; l += 1) {
-      drawLeaf(ctx, {
-        x: point[0],
-        y: point[1],
-        rY: randomAngle(),
-        rZ: randomOffshoot(direction - (Math.PI / 2)),
-        scale: [scale, scale, 1],
-      })
+      if (!isInside(bounds, point)) {
+        drawLeaf(ctx, {
+          x: point[0],
+          y: point[1],
+          rY: randomAngle(),
+          rZ: direction - ((Math.PI / 2) * l),
+          scale: [scale, scale, 1],
+        })
+      }
     }
   })
 
