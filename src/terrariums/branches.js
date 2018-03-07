@@ -18,9 +18,9 @@ const branches = [
     [444, 317],
     [456, 386],
     [450, 400],
-    [446, 466],
-    [450, 500],
-    [453, 555],
+    [436, 466],
+    [420, 500],
+    [423, 555],
   ],
   [
     [444, 317],
@@ -36,6 +36,15 @@ for (let b = 0; b < branchCount; b += 1) {
     200,
     randomBetween(10, 22) / 10,
     randomBetween(3, 8),
+  ))
+}
+
+for (let b = 0; b < branchCount; b += 1) {
+  branches.push(buildBranch(
+    randomBetween(250, 380),
+    200,
+    Math.PI / 2,
+    randomBetween(6, 8),
   ))
 }
 

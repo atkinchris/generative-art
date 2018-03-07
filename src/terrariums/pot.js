@@ -10,7 +10,8 @@ const drawPot = (ctx, x, y, width, height) => {
   const midY = (bottom - (height / 2))
 
   ctx.fillStyle = 'orange'
-  ctx.strokeStyle = 'black'
+  ctx.strokeStyle = 'rgba(16, 16, 16, 0.8)'
+  ctx.lineWidth = 4
 
   ctx.beginPath()
   ctx.moveTo(left, top)
