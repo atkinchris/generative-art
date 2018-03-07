@@ -53,6 +53,13 @@ const drawLeaf = (ctx, options) => {
     vec3.transformMat4(vertex, vertex, transform)
   }
 
+  const colour = `rgb(0, ${Math.floor(Math.random() * 96) + 96}, 0)`
+
+  ctx.fillStyle = colour
+  ctx.strokeStyle = colour
+  ctx.lineWidth = 1
+  ctx.filter = 'blur(1px)'
+
   faces.forEach((face) => {
     ctx.beginPath()
 
@@ -66,22 +73,10 @@ const drawLeaf = (ctx, options) => {
       }
     })
 
-    const gradient = ctx.createLinearGradient(
-      face[Math.floor(face.length / 5)][0],
-      face[Math.floor(face.length / 5)][1],
-      face[Math.ceil(face.length / 2)][0],
-      face[Math.ceil(face.length / 2)][1],
-    )
-    gradient.addColorStop(0, 'green')
-    gradient.addColorStop(1, 'lightgreen')
-
-    ctx.closePath()
-    ctx.fillStyle = gradient
-    ctx.strokeStyle = 'green'
-    ctx.lineWidth = 1
-    ctx.filter = 'blur(1px)'
     ctx.fill()
     ctx.stroke()
+
+    ctx.closePath()
   })
 }
 

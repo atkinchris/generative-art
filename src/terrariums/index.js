@@ -1,12 +1,12 @@
-import drawBranch from './branch'
+import { drawBranch, drawLeaves } from './branch'
 import { interpolate } from './geometry'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
 const ctx = canvas.getContext('2d')
 
-const width = 400
-const height = 400
+const width = 600
+const height = 600
 
 container.appendChild(canvas)
 
@@ -19,14 +19,21 @@ const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   const branch = interpolate([
-    [25, 25],
-    [90, 120],
-    [200, 200],
-    [300, 320],
-    [350, 350],
+    [300, 200],
+    [300, 150],
+    [330, 100],
+    [400, 70],
+    [470, 100],
+    [500, 200],
+    [510, 320],
+    [490, 400],
+    [500, 500],
+    [525, 525],
+    [550, 550],
   ])
 
   drawBranch(ctx, branch)
+  drawLeaves(ctx, branch)
 }
 
 setup()

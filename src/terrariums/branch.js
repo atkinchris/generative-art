@@ -4,13 +4,18 @@ import drawLeaf from './leaf'
 const maxBetween = (min, max) => (Math.random() * (max - min)) + min
 const randomAngle = () => Math.PI * (Math.random() - 0.5)
 const randomOffshoot = (start) => {
-  const angle = (Math.PI / 3) * Math.random()
+  const angle = (Math.PI / 2) * Math.random()
   const direction = Math.random() - 0.5
 
-  return direction > 0 ? start - angle : start + angle
+  return direction < 0 ? start - angle : start + angle
 }
 
 const drawBranch = (ctx, branch) => {
+  ctx.beginPath()
+  ctx.strokeStyle = 'green'
+  ctx.lineWidth = 4
+  ctx.filter = 'blur(1px)'
+
   branch.forEach((point, index) => {
     if (index === 0) {
       ctx.moveTo(point[0], point[1])
@@ -22,14 +27,30 @@ const drawBranch = (ctx, branch) => {
 
     const next = branch[index + 1]
     const mid = midPoint(point, next)
-    const direction = angleBetween([0, 0], point)
-    const leaves = maxBetween(2, 4)
 
-    ctx.strokeStyle = 'green'
-    ctx.lineWidth = 4
-    ctx.filter = 'blur(1px)'
     ctx.quadraticCurveTo(point[0], point[1], mid[0], mid[1])
     ctx.stroke()
+  })
+
+  ctx.closePath()
+}
+
+const drawLeaves = (ctx, branch) => {
+  branch.forEach((point, index) => {
+    if (index === 0) {
+      ctx.moveTo(point[0], point[1])
+      return
+    }
+
+    if (index === branch.length - 1) {
+      return
+    }
+
+    const scale = 1 - (index / (branch.length * 2))
+    const next = branch[index + 1]
+    const mid = midPoint(point, next)
+    const direction = angleBetween([0, 1], mid)
+    const leaves = maxBetween(2, 4)
 
     for (let l = 0; l < leaves; l += 1) {
       drawLeaf(ctx, {
@@ -37,9 +58,13 @@ const drawBranch = (ctx, branch) => {
         y: mid[1],
         rY: randomAngle(),
         rZ: randomOffshoot(direction),
+        scale: [scale, scale, 1],
       })
     }
   })
 }
 
-export default drawBranch
+export {
+  drawBranch,
+  drawLeaves,
+}
