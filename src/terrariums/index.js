@@ -1,5 +1,6 @@
 import { drawBranch, drawLeaves } from './branch'
 import { interpolate } from './geometry'
+import branches from './branches'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
@@ -17,44 +18,6 @@ const setup = () => {
 
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  const branches = [
-    [
-      [300, 200],
-      [300, 150],
-      [330, 100],
-      [400, 70],
-      [470, 100],
-      [500, 200],
-      [510, 320],
-      [490, 400],
-      [500, 500],
-      [525, 525],
-      [550, 550],
-    ],
-    [
-      [350, 200],
-      [350, 150],
-      [270, 100],
-      [225, 150],
-      [225, 200],
-      [250, 250],
-      [220, 270],
-    ],
-    [
-      [325, 200],
-      [325, 150],
-      [325, 100],
-      [300, 65],
-      [300, 50],
-    ],
-    [
-      [375, 200],
-      [375, 150],
-      [375, 100],
-      [375, 50],
-    ],
-  ]
 
   branches
     .map(interpolate)
