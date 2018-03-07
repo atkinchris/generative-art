@@ -48,7 +48,9 @@ const drawLeaves = (ctx, branch) => {
       return
     }
 
-    const scale = 1 - (index / (branch.length * 2))
+    const scaleModifier = branch.length > 15 ? 1 : branch.length / 15
+
+    const scale = scaleModifier - (index / (branch.length * 2))
     const next = branch[index + 1]
     const mid = midPoint(point, next)
     const direction = angleBetween([0, 1], mid)
