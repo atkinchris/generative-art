@@ -2,9 +2,9 @@ import { midPoint, angleBetween } from './geometry'
 import drawLeaf from './leaf'
 
 const maxBetween = (min, max) => (Math.random() * (max - min)) + min
-const randomAngle = () => Math.PI * (Math.random() - 0.5)
+const randomAngle = () => (Math.PI / 3) * (Math.random() - 0.5)
 const randomOffshoot = (start) => {
-  const angle = (Math.PI / 2) * Math.random()
+  const angle = (Math.PI / 3) * Math.random()
   const direction = Math.random() - 0.5
 
   return direction < 0 ? start - angle : start + angle
@@ -54,7 +54,7 @@ const drawLeaves = (ctx, branch) => {
     const next = branch[index + 1]
     const mid = midPoint(point, next)
     const direction = angleBetween([0, 1], mid)
-    const leaves = maxBetween(2, 4)
+    const leaves = maxBetween(1, 2)
 
     for (let l = 0; l < leaves; l += 1) {
       drawLeaf(ctx, {

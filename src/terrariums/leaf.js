@@ -6,7 +6,7 @@ const size = 30
 
 const worldScale = vec3.fromValues(size, -size, size)
 
-const drawLeaf = (ctx, options) => {
+const drawLeaf = (sourceContext, options) => {
   const {
     x = 0,
     y = 0,
@@ -55,29 +55,35 @@ const drawLeaf = (ctx, options) => {
 
   const colour = `rgb(0, ${Math.floor(Math.random() * 96) + 96}, 0)`
 
-  ctx.fillStyle = colour
-  ctx.strokeStyle = colour
-  ctx.lineWidth = 1
-  ctx.filter = 'blur(1px)'
+  const canvas = document.createElement('canvas')
+  canvas.width = sourceContext.canvas.width
+  canvas.height = sourceContext.canvas.height
+  const layer = canvas.getContext('2d')
+
+  layer.fillStyle = colour
+  layer.strokeStyle = colour
+  layer.lineWidth = 1
 
   faces.forEach((face) => {
-    ctx.beginPath()
+    layer.beginPath()
 
     face.forEach((vertex, vIndex) => {
       if (vIndex === 0) {
-        ctx.moveTo(vertex[0], vertex[1])
+        layer.moveTo(vertex[0], vertex[1])
       } else {
         const next = face[(vIndex + 1) % face.length]
         const mid = midPoint(vertex, next)
-        ctx.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
+        layer.quadraticCurveTo(vertex[0], vertex[1], mid[0], mid[1])
       }
     })
 
-    ctx.fill()
-    ctx.stroke()
+    layer.fill()
+    layer.stroke()
 
-    ctx.closePath()
+    layer.closePath()
   })
+
+  sourceContext.drawImage(canvas, 0, 0)
 }
 
 export default drawLeaf
