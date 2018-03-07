@@ -32,7 +32,7 @@ const branches = [
 
 for (let b = 0; b < branchCount; b += 1) {
   branches.push(buildBranch(
-    randomBetween(250, 400),
+    randomBetween(250, 380),
     200,
     randomBetween(10, 22) / 10,
     randomBetween(3, 8),

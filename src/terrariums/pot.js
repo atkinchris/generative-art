@@ -1,19 +1,39 @@
 const drawPot = (ctx, x, y, width, height) => {
+  const left = x
+  const right = x + width
+  const top = y
+  const bottom = y + height
+
+  const offset = 40
+
+  const midX = left + (width / 2)
+  const midY = (bottom - (height / 2))
+
   ctx.fillStyle = 'orange'
+  ctx.strokeStyle = 'black'
+
   ctx.beginPath()
-  ctx.moveTo(x, y)
-  ctx.lineTo(x + width, y)
-  ctx.lineTo(x + (width - 20), y + height)
-  ctx.lineTo(x + 20, y + height)
+  ctx.moveTo(left, top)
+  ctx.lineTo(right, top)
+  ctx.quadraticCurveTo(right, midY, right - offset, bottom)
+  ctx.lineTo(left + offset, bottom)
+  ctx.quadraticCurveTo(left, midY, left, top)
   ctx.closePath()
 
   ctx.fill()
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(left + (offset / 4), midY)
+  ctx.quadraticCurveTo(midX, midY + offset, right - (offset / 4), midY)
+
+  ctx.stroke()
 
   return {
-    left: x,
-    right: x + width,
-    top: y,
-    bottom: y + height,
+    left,
+    right,
+    top,
+    bottom,
   }
 }
 

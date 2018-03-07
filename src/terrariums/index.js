@@ -14,5 +14,5 @@ container.appendChild(canvas)
 ctx.translate(300, 400)
 
 branches.map(branch => drawBranch(ctx, branch))
-const bounds = drawPot(ctx, 220, 150, 200, 150)
+const bounds = drawPot(ctx, 230, 150, 180, 150)
 branches.map(branch => drawLeaves(ctx, branch, bounds))
