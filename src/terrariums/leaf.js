@@ -16,6 +16,7 @@ const drawLeaf = (sourceContext, options) => {
     rY = 0,
     rZ = 0,
   } = options
+  const { width, height } = sourceContext.canvas
 
   const { vertices, faces } = buildGeometry()
 
@@ -56,9 +57,9 @@ const drawLeaf = (sourceContext, options) => {
   const colour = `rgb(0, ${Math.floor(Math.random() * 96) + 96}, 0)`
 
   const canvas = document.createElement('canvas')
-  canvas.width = sourceContext.canvas.width
-  canvas.height = sourceContext.canvas.height
   const layer = canvas.getContext('2d')
+  canvas.width = width
+  canvas.height = height
 
   layer.fillStyle = colour
   layer.strokeStyle = colour
@@ -82,6 +83,9 @@ const drawLeaf = (sourceContext, options) => {
 
     layer.closePath()
   })
+
+  layer.globalCompositeOperation = 'source-atop'
+  layer.fillRect(0, 0, width, height)
 
   sourceContext.drawImage(canvas, 0, 0)
 }
