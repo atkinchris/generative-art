@@ -1,4 +1,8 @@
-export default [
+import { buildBranch } from './branch'
+import { randomBetween } from './random'
+
+const branchCount = 22
+const branches = [
   [
     [300, 200],
     [320, 161],
@@ -25,3 +29,21 @@ export default [
     [500, 337],
   ],
 ]
+
+for (let b = 0; b < branchCount; b += 1) {
+  branches.push(buildBranch(
+    randomBetween(250, 400),
+    200,
+    randomBetween(10, 22) / 10,
+    randomBetween(3, 8),
+  ))
+}
+
+branches.push(buildBranch(
+  330,
+  180,
+  2 * (Math.PI / 3),
+  12,
+))
+
+export default branches

@@ -85,7 +85,7 @@ const buildBranch = (startX, startY, angle, length) => {
 
   const g = 9.81
   const vX = 40
-  const vY = 50
+  const vY = randomBetween(40, 55)
   let prevX
 
   for (let t = 0; t < length; t += 1) {
