@@ -35,9 +35,6 @@ const draw = () => {
     [350, 350],
   ])
 
-  ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, width, height)
-
   branch.forEach((point, index) => {
     if (index === 0) {
       ctx.moveTo(point[0], point[1])
