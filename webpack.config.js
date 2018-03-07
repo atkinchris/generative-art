@@ -25,6 +25,14 @@ const common = {
         fallback: 'style-loader',
         use: ['css-loader'],
       }),
+    }, {
+      test: /\.jpeg$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 250000000,
+        },
+      },
     }],
   },
   plugins: [

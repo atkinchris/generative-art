@@ -2,20 +2,23 @@ import { drawBranch, drawLeaves } from './branch'
 import branches from './branches'
 import drawPot from './pot'
 import drawFrame from './frame'
+import applyTexture from './texture'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
 const ctx = canvas.getContext('2d')
 
-canvas.width = 1200
-canvas.height = 1200
+canvas.width = 600
+canvas.height = 2000
 
 container.appendChild(canvas)
 
-ctx.translate(300, 500)
-ctx.filter = 'blur(1px)'
+ctx.translate(0, 1000)
 
+ctx.filter = 'blur(2px)'
 drawFrame(ctx, 320, 150)
 branches.map(branch => drawBranch(ctx, branch))
+ctx.filter = 'blur(1px)'
 const bounds = drawPot(ctx, 230, 150, 180, 150)
 branches.map(branch => drawLeaves(ctx, branch, bounds))
+applyTexture(ctx)

@@ -6,7 +6,6 @@ const drawBranch = (ctx, branch) => {
   ctx.beginPath()
   ctx.strokeStyle = 'green'
   ctx.lineWidth = 4
-  ctx.filter = 'blur(1px)'
 
   branch.forEach((point, index) => {
     if (index === 0) {
