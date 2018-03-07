@@ -33,6 +33,8 @@ const drawBranch = (ctx, branch) => {
   })
 
   ctx.closePath()
+
+  return branch
 }
 
 const drawLeaves = (ctx, branch) => {
@@ -62,6 +64,8 @@ const drawLeaves = (ctx, branch) => {
       })
     }
   })
+
+  return branch
 }
 
 export {

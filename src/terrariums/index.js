@@ -18,22 +18,26 @@ const setup = () => {
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  const branch = interpolate([
-    [300, 200],
-    [300, 150],
-    [330, 100],
-    [400, 70],
-    [470, 100],
-    [500, 200],
-    [510, 320],
-    [490, 400],
-    [500, 500],
-    [525, 525],
-    [550, 550],
-  ])
+  const branches = [
+    [
+      [300, 200],
+      [300, 150],
+      [330, 100],
+      [400, 70],
+      [470, 100],
+      [500, 200],
+      [510, 320],
+      [490, 400],
+      [500, 500],
+      [525, 525],
+      [550, 550],
+    ],
+  ]
 
-  drawBranch(ctx, branch)
-  drawLeaves(ctx, branch)
+  branches
+    .map(interpolate)
+    .map(branch => drawBranch(ctx, branch))
+    .map(branch => drawLeaves(ctx, branch))
 }
 
 setup()
