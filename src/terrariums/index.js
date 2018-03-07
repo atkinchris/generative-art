@@ -1,5 +1,5 @@
 import drawLeaf from './leaf'
-import { midPoint, interpolate } from './geometry'
+import { midPoint, interpolate, angleBetween } from './geometry'
 
 const container = document.querySelector('.container')
 const canvas = document.createElement('canvas')
@@ -8,8 +8,14 @@ const ctx = canvas.getContext('2d')
 const width = 400
 const height = 400
 
+const maxBetween = (min, max) => (Math.random() * (max - min)) + min
 const randomAngle = () => Math.PI * (Math.random() - 0.5)
-const randomOffshoot = direction => ((Math.PI / 3) * Math.random()) - ((Math.PI / 6) * direction)
+const randomOffshoot = (start) => {
+  const angle = (Math.PI / 3) * Math.random()
+  const direction = Math.random() - 0.5
+
+  return direction > 0 ? start - angle : start + angle
+}
 
 container.appendChild(canvas)
 
@@ -43,17 +49,23 @@ const draw = () => {
 
     const next = branch[index + 1]
     const mid = midPoint(point, next)
+    const direction = angleBetween([0, 0], point)
+    const leaves = maxBetween(2, 4)
 
     ctx.strokeStyle = 'green'
     ctx.lineWidth = 4
     ctx.filter = 'blur(1px)'
     ctx.quadraticCurveTo(point[0], point[1], mid[0], mid[1])
-    ctx.lineTo(mid[0] + 5, mid[1] + 5)
     ctx.stroke()
 
-    drawLeaf(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(1) })
-    drawLeaf(ctx, { x: mid[0], y: mid[1], rY: randomAngle(), rZ: randomOffshoot(-1) })
-    drawLeaf(ctx, { x: mid[0] + 5, y: mid[1] + 5, rY: randomAngle(), rZ: randomOffshoot(-1) })
+    for (let l = 0; l < leaves; l += 1) {
+      drawLeaf(ctx, {
+        x: mid[0],
+        y: mid[1],
+        rY: randomAngle(),
+        rZ: randomOffshoot(direction),
+      })
+    }
   })
 }
 

@@ -44,6 +44,8 @@ const midPoint = (p1, p2) => [
   p1[1] + ((p2[1] - p1[1]) / 2),
 ]
 
+const angleBetween = (p1, p2) => Math.atan2(p2[1] - p1[1], p2[0] - p1[0])
+
 const interpolate = points => points.reduce((out, point, i) => {
   if (i === points.length - 1) return out
 
@@ -59,5 +61,6 @@ export {
   sortDepth,
   buildGeometry,
   midPoint,
+  angleBetween,
   interpolate,
 }
