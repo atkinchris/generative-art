@@ -17,6 +17,6 @@ ctx.translate(0, 1000)
 
 drawFrame(ctx, 320, 150)
 branches.map(branch => drawBranch(ctx, branch))
-const bounds = drawPot(ctx, 230, 150, 180, 150)
+const bounds = drawPot(ctx, 240, 150, 160, 130)
 branches.map(branch => drawLeaves(ctx, branch, bounds))
 applyTexture(ctx)

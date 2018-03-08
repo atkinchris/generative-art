@@ -1,7 +1,7 @@
 import { buildBranch } from './branch'
 import { randomBetween } from './random'
 
-const branchCount = 22
+const branchCount = 32
 const branches = [
   [
     [300, 200],
@@ -32,7 +32,7 @@ const branches = [
 
 for (let b = 0; b < branchCount; b += 1) {
   branches.push(buildBranch(
-    randomBetween(250, 380),
+    randomBetween(260, 370),
     200,
     randomBetween(10, 22) / 10,
     randomBetween(3, 8),
@@ -41,7 +41,7 @@ for (let b = 0; b < branchCount; b += 1) {
 
 for (let b = 0; b < branchCount; b += 1) {
   branches.push(buildBranch(
-    randomBetween(250, 380),
+    randomBetween(260, 370),
     200,
     Math.PI / 2,
     randomBetween(6, 8),

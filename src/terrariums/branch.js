@@ -5,6 +5,7 @@ import { randomBetween, randomAngle } from './random'
 const drawBranch = (ctx, branch) => {
   ctx.beginPath()
   ctx.strokeStyle = 'green'
+  ctx.lineCap = 'round'
   ctx.lineWidth = 4
 
   branch.forEach((point, index) => {
@@ -16,10 +17,9 @@ const drawBranch = (ctx, branch) => {
     const mid = midPoint(point, next)
 
     ctx.quadraticCurveTo(point[0], point[1], mid[0], mid[1])
-    ctx.stroke()
   })
 
-  ctx.closePath()
+  ctx.stroke()
 
   return branch
 }
