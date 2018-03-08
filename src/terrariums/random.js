@@ -6,9 +6,21 @@ const randomOffshoot = (start) => {
 
   return direction < 0 ? start - angle : start + angle
 }
+const randomApprox = (iterations = 6) => {
+  let rand = 0
+
+  for (let i = 0; i < iterations; i += 1) {
+    rand += Math.random()
+  }
+
+  rand -= iterations / 2
+
+  return rand / iterations
+}
 
 export {
   randomBetween,
   randomAngle,
   randomOffshoot,
+  randomApprox,
 }

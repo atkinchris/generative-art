@@ -1,33 +1,55 @@
+import { interpolate, deform } from './geometry'
+
 const drawFrame = (ctx, x, y) => {
   const base = [x, y + 250]
   const top = [x, y - 500]
 
-  ctx.moveTo(base[0], base[1])
-  ctx.lineTo(x - 160, y + 100)
-  ctx.lineTo(top[0], top[1])
+  const lines = [
+    [
+      [base[0], base[1]],
+      [x - 160, y + 100],
+      [top[0], top[1]],
+    ], [
+      [base[0], base[1]],
+      [x + 160, y + 100],
+      [top[0], top[1]],
+    ], [
+      [base[0], base[1]],
+      [x + 60, y + 100],
+      [top[0], top[1]],
+    ], [
+      [base[0], base[1]],
+      [x - 70, y + 70],
+      [x - 80, y + 70],
+      [top[0], top[1]],
+    ], [
+      [x - 160, y + 100],
+      [x, y + 50],
+      [x + 160, y + 100],
+    ], [
+      [top[0], top[1] - 10],
+      [top[0], -1000],
+    ],
+  ]
 
-  ctx.moveTo(base[0], base[1])
-  ctx.lineTo(x + 160, y + 100)
-  ctx.lineTo(top[0], top[1])
+  let interpolated = lines
 
-  ctx.moveTo(base[0], base[1])
-  ctx.lineTo(x + 60, y + 100)
-  ctx.lineTo(top[0], top[1])
+  for (let i = 0; i < 6; i += 1) {
+    interpolated = interpolated.map(line => interpolate(line))
+  }
 
-  ctx.moveTo(base[0], base[1])
-  ctx.lineTo(x - 70, y + 70)
-  ctx.lineTo(x - 80, y + 70)
-  ctx.lineTo(top[0], top[1])
-
-  ctx.moveTo(x - 160, y + 100)
-  ctx.lineTo(x, y + 50)
-  ctx.lineTo(x + 160, y + 100)
+  interpolated
+    .map(line => deform(line, 3))
+    .forEach(points => points.forEach((point, index) => {
+      if (index === 0) {
+        ctx.moveTo(point[0], point[1])
+      } else {
+        ctx.lineTo(point[0], point[1])
+      }
+    }))
 
   ctx.moveTo(top[0], top[1])
   ctx.ellipse(top[0], top[1] - 5, 10, 10, 0, Math.PI / 2, 4 * Math.PI)
-
-  ctx.moveTo(top[0], top[1] - 10)
-  ctx.lineTo(top[0], -1000)
 
   ctx.strokeStyle = 'rgba(16, 16, 16, 0.8)'
   ctx.lineWidth = 4

@@ -15,10 +15,8 @@ container.appendChild(canvas)
 
 ctx.translate(0, 1000)
 
-ctx.filter = 'blur(2px)'
 drawFrame(ctx, 320, 150)
 branches.map(branch => drawBranch(ctx, branch))
-ctx.filter = 'blur(1px)'
 const bounds = drawPot(ctx, 230, 150, 180, 150)
 branches.map(branch => drawLeaves(ctx, branch, bounds))
 applyTexture(ctx)

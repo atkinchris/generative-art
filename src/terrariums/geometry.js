@@ -1,5 +1,7 @@
 import { vec3 } from 'gl-matrix'
 
+import { randomApprox } from './random'
+
 const z = v => (Math.sin((Math.PI / 2) * v[1]) - Math.cos((Math.PI / 2) * v[0])) / 2
 
 const buildGeometry = () => {
@@ -46,16 +48,26 @@ const midPoint = (p1, p2) => [
 
 const angleBetween = (p1, p2) => Math.atan2(p2[1] - p1[1], p2[0] - p1[0])
 
-const interpolate = points => points.reduce((out, point, i) => {
-  if (i === points.length - 1) return out
+const interpolate = (points) => {
+  const output = points.reduce((out, point, i) => {
+    if (i === points.length - 1) return out
 
-  const next = points[(i + 1) % points.length]
-  const mid = midPoint(point, next)
-  out.push(point)
-  out.push(mid)
+    const next = points[(i + 1) % points.length]
+    const mid = midPoint(point, next)
+    out.push(point)
+    out.push(mid)
 
-  return out
-}, [])
+    return out
+  }, [])
+
+  output.push(points[points.length - 1])
+  return output
+}
+
+const deform = (points, deviation = 1) => points.map(point => [
+  point[0] + (randomApprox() * deviation),
+  point[1] + (randomApprox() * deviation),
+])
 
 const isInside = (bounds, point) => (
   point[0] > bounds.left &&
@@ -71,4 +83,5 @@ export {
   angleBetween,
   interpolate,
   isInside,
+  deform,
 }
