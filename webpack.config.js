@@ -1,7 +1,7 @@
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const buildPages = require('./webpack.pages')
 
@@ -21,10 +21,7 @@ const common = {
   module: {
     rules: [{
       test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader'],
-      }),
+      use: [MiniCssExtractPlugin.loader, 'css-loader'],
     }, {
       test: /\.jpeg$/,
       use: {
@@ -37,7 +34,7 @@ const common = {
   },
   plugins: [
     new CleanWebpackPlugin([paths.DEST]),
-    new ExtractTextPlugin('[name].css'),
+    new MiniCssExtractPlugin({ fileName: '[name].css' }),
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 8080,
