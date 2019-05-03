@@ -2,19 +2,9 @@
   "env": {
     "browser": true
   },
-  "extends": "airbnb-base",
-  "globals": {
-    "p5": false
-  },
+  "extends": ["airbnb", "prettier", "prettier/react"],
   "rules": {
     "semi": ["error", "never"],
-    "object-curly-newline": "off",
-    "new-cap": ["error", {
-      "newIsCapExceptions": ["p5"]
-    }],
-    "no-param-reassign": ["error", {
-      "props": false
-    }],
-    "no-console": "off"
+    "no-param-reassign": ["error", { "ignorePropertyModificationsFor": ["p"] }]
   }
 }

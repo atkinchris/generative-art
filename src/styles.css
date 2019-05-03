@@ -1,0 +1,41 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: #f9f8f4;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.c-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.c-thumbnail {
+  width: 100%;
+  height: auto;
+}
+
+.c-card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 1rem;
+  background: #ffffff;
+}
+
+.c-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.c-grid__item {
+}
