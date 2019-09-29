@@ -17,9 +17,21 @@ body,
 
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
+}
+
+#nameplate {
+  background: white;
+  padding: 8px;
+  margin-top: 16px;
+}
+
+.container canvas {
+  box-shadow: 2px 7px 8px 0px #ccc;
+  background: white;
+  padding: 16px;
 }
 
 .link {
