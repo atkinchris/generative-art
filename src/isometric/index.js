@@ -6,12 +6,7 @@ canvas.width = 512
 canvas.height = 512
 container.appendChild(canvas)
 
-const palette = [
-  '#384259',
-  '#F73859',
-  '#7AC7C4',
-  '#C4EDDE',
-]
+const palette = ['#384259', '#F73859', '#7AC7C4', '#C4EDDE']
 const getRColour = () => palette[Math.floor(Math.random() * palette.length)]
 
 const sketch = () => {
@@ -23,41 +18,41 @@ const sketch = () => {
   const curve = 4
 
   const rowHeight = size
-  const columnWidth = Math.sqrt((size ** 2) - ((size / 2) ** 2))
+  const columnWidth = Math.sqrt(size ** 2 - (size / 2) ** 2)
   const curveWidth = columnWidth * 2 * (curve + 1)
   // const planes = Math.ceil(height / (rowHeight * 2))
 
-  for (let y = 0; y <= height + (rowHeight * 2); y += rowHeight * 2) {
+  for (let y = 0; y <= height + rowHeight * 2; y += rowHeight * 2) {
     const plane = y / (rowHeight * 2)
 
     for (let x = width; x >= -curveWidth; x -= curveWidth) {
       for (let z = depth; z >= 0; z -= 1) {
-        const yOffset = y - (z * rowHeight)
+        const yOffset = y - z * rowHeight
         grid.push({
           x: x - columnWidth,
-          y: yOffset - (rowHeight * 0.5),
+          y: yOffset - rowHeight * 0.5,
           z,
           plane,
         })
 
         for (let c = 0; c < curve; c += 1) {
           grid.push({
-            x: x + (columnWidth * (0 + c)),
-            y: yOffset + (rowHeight * 0.5 * c),
+            x: x + columnWidth * (0 + c),
+            y: yOffset + rowHeight * 0.5 * c,
             z,
             plane,
           })
           grid.push({
-            x: x + (columnWidth * ((curve * 2) - c)),
-            y: yOffset + (rowHeight * 0.5 * c),
+            x: x + columnWidth * (curve * 2 - c),
+            y: yOffset + rowHeight * 0.5 * c,
             z,
             plane,
           })
         }
 
         grid.push({
-          x: x + (columnWidth * curve),
-          y: yOffset + (rowHeight * 0.5 * curve),
+          x: x + columnWidth * curve,
+          y: yOffset + rowHeight * 0.5 * curve,
           z,
           plane,
         })
@@ -100,7 +95,8 @@ const sketch = () => {
   grid
     .sort(depthSort)
     .filter(depthFilter)
-    .map(cube => Object.assign({}, cube, {
+    .map(cube => ({
+      ...cube,
       size,
       colour: getRColour(),
     }))

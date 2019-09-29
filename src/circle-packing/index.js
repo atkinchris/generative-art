@@ -12,17 +12,16 @@ class Rect {
     const { x, y, width, height } = this
 
     return (
-      (point.x - point.radius <= x + width && point.x + point.radius >= x) &&
+      point.x - point.radius <= x + width &&
+      point.x + point.radius >= x &&
       (point.y - point.radius <= y + height && point.y + point.radius >= y)
     )
   }
 }
 
-const distance = (a, b) => Math.sqrt((
-  ((b.x - a.x) ** 2) + ((b.y - a.y) ** 2)
-))
+const distance = (a, b) => Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
-const sketch = (p) => {
+const sketch = p => {
   const width = 400
   const height = 400
   const circles = []
@@ -40,13 +39,9 @@ const sketch = (p) => {
   const DEFAULT_HUE = p.random(128, 196)
   const DEFAULT_BRIGHTNESS = 255
 
-  const rects = [
-    new Rect(120, 100, 50, 180),
-    new Rect(120, 100, 160, 50),
-    new Rect(120, 250, 160, 50),
-  ]
+  const rects = [new Rect(120, 100, 50, 180), new Rect(120, 100, 160, 50), new Rect(120, 250, 160, 50)]
 
-  const packCircles = (config) => {
+  const packCircles = config => {
     const {
       radius,
       hue = DEFAULT_HUE,
@@ -67,7 +62,7 @@ const sketch = (p) => {
         brightness,
       }
       const test = circle => distance(circle, newCircle) < (radius + circle.radius) / 2
-      const withinCanvas = distance(center, newCircle) < canvasRadius - (radius / 2)
+      const withinCanvas = distance(center, newCircle) < canvasRadius - radius / 2
       const withinRect = rects.some(rect => rect.contains(newCircle))
 
       if (withinRect) {
@@ -93,12 +88,8 @@ const sketch = (p) => {
   }
 
   p.draw = () => {
-    circles.forEach((circle) => {
-      p.fill(
-        circle.hue,
-        circle.saturation * 255,
-        circle.brightness,
-      )
+    circles.forEach(circle => {
+      p.fill(circle.hue, circle.saturation * 255, circle.brightness)
       p.ellipse(circle.x, circle.y, circle.radius)
     })
   }

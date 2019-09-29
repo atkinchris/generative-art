@@ -20,15 +20,11 @@ const buildGeometry = () => {
     [0.0, 0.25],
     [0.0, 0.5],
   ]
-  const vertices = [
-    ...rightHalf,
-    ...rightHalf.map(v => [v[0] * -1, v[1], v[2]]),
-  ].map(v => vec3.fromValues(v[0], v[1], z(v)))
+  const vertices = [...rightHalf, ...rightHalf.map(v => [v[0] * -1, v[1], v[2]])].map(v =>
+    vec3.fromValues(v[0], v[1], z(v))
+  )
 
-  const faces = [
-    vertices.slice(0, rightHalf.length),
-    vertices.slice(rightHalf.length),
-  ]
+  const faces = [vertices.slice(0, rightHalf.length), vertices.slice(rightHalf.length)]
 
   return {
     vertices,
@@ -41,14 +37,11 @@ const sortDepth = (a, b) => {
   return avg(a) < avg(b)
 }
 
-const midPoint = (p1, p2) => [
-  p1[0] + ((p2[0] - p1[0]) / 2),
-  p1[1] + ((p2[1] - p1[1]) / 2),
-]
+const midPoint = (p1, p2) => [p1[0] + (p2[0] - p1[0]) / 2, p1[1] + (p2[1] - p1[1]) / 2]
 
 const angleBetween = (p1, p2) => Math.atan2(p2[1] - p1[1], p2[0] - p1[0])
 
-const interpolate = (points) => {
+const interpolate = points => {
   const output = points.reduce((out, point, i) => {
     if (i === points.length - 1) return out
 
@@ -64,24 +57,10 @@ const interpolate = (points) => {
   return output
 }
 
-const deform = (points, deviation = 1) => points.map(point => [
-  point[0] + (randomApprox() * deviation),
-  point[1] + (randomApprox() * deviation),
-])
+const deform = (points, deviation = 1) =>
+  points.map(point => [point[0] + randomApprox() * deviation, point[1] + randomApprox() * deviation])
 
-const isInside = (bounds, point) => (
-  point[0] > bounds.left &&
-  point[0] < bounds.right &&
-  point[1] > bounds.top &&
-  point[1] < bounds.bottom
-)
+const isInside = (bounds, point) =>
+  point[0] > bounds.left && point[0] < bounds.right && point[1] > bounds.top && point[1] < bounds.bottom
 
-export {
-  sortDepth,
-  buildGeometry,
-  midPoint,
-  angleBetween,
-  interpolate,
-  isInside,
-  deform,
-}
+export { sortDepth, buildGeometry, midPoint, angleBetween, interpolate, isInside, deform }

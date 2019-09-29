@@ -1,5 +1,5 @@
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -33,7 +33,7 @@ const common = {
     }],
   },
   plugins: [
-    new CleanWebpackPlugin([paths.DEST]),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ fileName: '[name].css' }),
     new BrowserSyncPlugin({
       host: 'localhost',

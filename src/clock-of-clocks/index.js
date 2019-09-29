@@ -1,6 +1,6 @@
 const canvas = document.querySelector('.container')
 
-const sketch = (p) => {
+const sketch = p => {
   const width = Math.min(window.innerWidth, window.innerHeight) * 0.9
   const height = width
   const hours = 12
@@ -33,16 +33,12 @@ const sketch = (p) => {
   }
 
   const drawNumbers = () => {
-    const radius = (width / 2) - (handLength * 2)
+    const radius = width / 2 - handLength * 2
     const angle = p.TWO_PI / hours
     let hour = 0
 
     for (let a = 0; a < p.TWO_PI; a += angle) {
-      drawNumber(
-        center.x + (Math.cos(a) * radius),
-        center.y + (Math.sin(a) * radius),
-        hour,
-      )
+      drawNumber(center.x + Math.cos(a) * radius, center.y + Math.sin(a) * radius, hour)
       hour += 1
     }
   }

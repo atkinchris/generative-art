@@ -22,37 +22,17 @@ const branches = [
     [420, 500],
     [423, 555],
   ],
-  [
-    [444, 317],
-    [460, 340],
-    [490, 347],
-    [500, 337],
-  ],
+  [[444, 317], [460, 340], [490, 347], [500, 337]],
 ]
 
 for (let b = 0; b < branchCount; b += 1) {
-  branches.push(buildBranch(
-    randomBetween(260, 370),
-    200,
-    randomBetween(10, 22) / 10,
-    randomBetween(3, 8),
-  ))
+  branches.push(buildBranch(randomBetween(260, 370), 200, randomBetween(10, 22) / 10, randomBetween(3, 8)))
 }
 
 for (let b = 0; b < branchCount; b += 1) {
-  branches.push(buildBranch(
-    randomBetween(260, 370),
-    200,
-    Math.PI / 2,
-    randomBetween(6, 8),
-  ))
+  branches.push(buildBranch(randomBetween(260, 370), 200, Math.PI / 2, randomBetween(6, 8)))
 }
 
-branches.push(buildBranch(
-  330,
-  180,
-  2 * (Math.PI / 3),
-  12,
-))
+branches.push(buildBranch(330, 180, 2 * (Math.PI / 3), 12))
 
 export default branches

@@ -12,10 +12,7 @@ class Particle {
   }
 
   update(force) {
-    this.previousPosition = this.p.createVector(
-      this.position.x,
-      this.position.y,
-    )
+    this.previousPosition = this.p.createVector(this.position.x, this.position.y)
 
     this.acceleration.add(force)
     this.velocity.add(this.acceleration)
@@ -31,10 +28,7 @@ class Particle {
   }
 
   distanceFrom({ x, y }) {
-    return Math.sqrt((
-      ((x - this.position.x) ** 2) +
-      ((y - this.position.y) ** 2)
-    ))
+    return Math.sqrt((x - this.position.x) ** 2 + (y - this.position.y) ** 2)
   }
 
   draw() {
@@ -43,12 +37,7 @@ class Particle {
     p.push()
     p.stroke(0, 0.3)
     p.strokeWeight(1)
-    p.line(
-      this.previousPosition.x,
-      this.previousPosition.y,
-      this.position.x,
-      this.position.y,
-    )
+    p.line(this.previousPosition.x, this.previousPosition.y, this.position.x, this.position.y)
     p.pop()
   }
 }

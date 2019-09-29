@@ -6,8 +6,8 @@ const drawPot = (ctx, x, y, width, height) => {
 
   const offset = 40
 
-  const midX = left + (width / 2)
-  const midY = (bottom - (height / 2))
+  const midX = left + width / 2
+  const midY = bottom - height / 2
 
   const gradient = ctx.createLinearGradient(left, top, right, bottom)
   gradient.addColorStop(0, '#FF5722')
@@ -29,8 +29,8 @@ const drawPot = (ctx, x, y, width, height) => {
   ctx.stroke()
 
   ctx.beginPath()
-  ctx.moveTo(left + (offset / 4), midY)
-  ctx.quadraticCurveTo(midX, midY + offset, right - (offset / 4), midY)
+  ctx.moveTo(left + offset / 4, midY)
+  ctx.quadraticCurveTo(midX, midY + offset, right - offset / 4, midY)
 
   ctx.stroke()
 

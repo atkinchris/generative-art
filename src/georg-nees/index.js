@@ -1,6 +1,6 @@
 const canvas = document.querySelector('.container')
 
-const sketch = (p) => {
+const sketch = p => {
   const width = 400
   const height = 400
   const size = 30

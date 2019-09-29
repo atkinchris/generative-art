@@ -1,14 +1,14 @@
 const canvas = document.querySelector('.container')
 
-const sketch = (p) => {
+const sketch = p => {
   const rPolygon = (x, y, radius, nsides) => {
     const points = []
     const angle = p.TWO_PI / nsides
 
     for (let a = 0; a < p.TWO_PI; a += angle) {
       points.push({
-        x: x + (Math.cos(a) * radius),
-        y: y + (Math.sin(a) * radius),
+        x: x + Math.cos(a) * radius,
+        y: y + Math.sin(a) * radius,
         z: p.random(-1, 1),
       })
     }
@@ -45,7 +45,7 @@ const sketch = (p) => {
     return newPoints
   }
 
-  const drawPoly = (points) => {
+  const drawPoly = points => {
     p.beginShape()
     points.forEach(v => p.vertex(v.x, v.y))
     p.endShape(p.CLOSE)
@@ -81,7 +81,6 @@ const sketch = (p) => {
 
     p.resetMatrix()
   }
-
 
   p.setup = () => {
     p.createCanvas(400, 400)

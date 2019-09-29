@@ -1,6 +1,6 @@
 import texture from './texture.jpeg'
 
-const applyTexture = (ctx) => {
+const applyTexture = ctx => {
   const image = new Image()
 
   image.onload = () => {

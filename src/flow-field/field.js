@@ -6,7 +6,7 @@ const buildField = (p, { width, height, scale = 20 }) => {
 
   const getVector = (x, y) => {
     const r = p.noise(x * noiseScale, y * noiseScale)
-    const angle = p.radians((r * angleScale * 360) + (-45 + angleHeading))
+    const angle = p.radians(r * angleScale * 360 + (-45 + angleHeading))
     const vector = p5.Vector.fromAngle(angle)
     vector.setMag(fieldStrength)
 
@@ -24,14 +24,7 @@ const buildField = (p, { width, height, scale = 20 }) => {
     p.translate(x, y)
     p.rotate(vector.heading())
     p.line(0, 0, length, 0)
-    p.triangle(
-      length / 2,
-      length * 0.2,
-      length,
-      0,
-      length / 2,
-      length * -0.2,
-    )
+    p.triangle(length / 2, length * 0.2, length, 0, length / 2, length * -0.2)
 
     p.pop()
   }

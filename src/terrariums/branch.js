@@ -42,21 +42,21 @@ const drawLeaves = (ctx, branch, bounds) => {
       x: point[0],
       y: point[1],
       rY: randomAngle(),
-      rZ: direction - (Math.PI / 3.5),
+      rZ: direction - Math.PI / 3.5,
       scale: [scale, scale, 1],
     })
     drawLeaf(ctx, {
       x: point[0],
       y: point[1],
       rY: randomAngle(),
-      rZ: direction + (Math.PI / 3.5),
+      rZ: direction + Math.PI / 3.5,
       scale: [scale, scale, 1],
     })
 
     return branch
   }
 
-  branch.forEach((point) => {
+  branch.forEach(point => {
     const scale = randomBetween(5, 7) / 10
     const direction = Math.atan2(point[0], point[1])
     const leaves = randomBetween(0, 2)
@@ -67,7 +67,7 @@ const drawLeaves = (ctx, branch, bounds) => {
           x: point[0],
           y: point[1],
           rY: randomAngle(),
-          rZ: direction - ((Math.PI / 2) * l),
+          rZ: direction - (Math.PI / 2) * l,
           scale: [scale, scale, 1],
         })
       }
@@ -78,9 +78,7 @@ const drawLeaves = (ctx, branch, bounds) => {
 }
 
 const buildBranch = (startX, startY, angle, length) => {
-  const segments = [
-    [startX, startY],
-  ]
+  const segments = [[startX, startY]]
 
   const g = 9.81
   const vX = 40
@@ -88,10 +86,8 @@ const buildBranch = (startX, startY, angle, length) => {
   let prevX
 
   for (let t = 0; t < length; t += 1) {
-    const y = (vY * t * Math.sin(angle)) - (0.5 * g * (t ** 2))
-    const x = y > 0
-      ? vX * t * Math.cos(angle)
-      : prevX + randomBetween(-15, 15)
+    const y = vY * t * Math.sin(angle) - 0.5 * g * t ** 2
+    const x = y > 0 ? vX * t * Math.cos(angle) : prevX + randomBetween(-15, 15)
 
     prevX = x
 
@@ -101,8 +97,4 @@ const buildBranch = (startX, startY, angle, length) => {
   return segments
 }
 
-export {
-  drawBranch,
-  drawLeaves,
-  buildBranch,
-}
+export { drawBranch, drawLeaves, buildBranch }

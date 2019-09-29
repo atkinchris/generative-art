@@ -7,15 +7,7 @@ const size = 30
 const worldScale = vec3.fromValues(size, -size, size)
 
 const drawLeaf = (sourceContext, options) => {
-  const {
-    x = 0,
-    y = 0,
-    z = 0,
-    scale = [1, 1, 1],
-    rX = -0.4,
-    rY = 0,
-    rZ = 0,
-  } = options
+  const { x = 0, y = 0, z = 0, scale = [1, 1, 1], rX = -0.4, rY = 0, rZ = 0 } = options
   const { width, height } = sourceContext.canvas
 
   const { vertices, faces } = buildGeometry()
@@ -65,7 +57,7 @@ const drawLeaf = (sourceContext, options) => {
   layer.strokeStyle = colour
   layer.lineWidth = 1
 
-  faces.forEach((face) => {
+  faces.forEach(face => {
     layer.beginPath()
 
     face.forEach((vertex, vIndex) => {
