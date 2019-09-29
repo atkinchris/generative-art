@@ -47,7 +47,7 @@ body,
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 1rem;
-  margin-left: 1rem
+  margin-left: 1rem;
 }
 
 .grid-item {
@@ -56,3 +56,4 @@ body,
   margin-left: 1rem;
   margin-top: 1rem;
 }
+
