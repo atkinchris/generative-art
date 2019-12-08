@@ -5,39 +5,46 @@ interface Point {
   y: number
 }
 
-const WIDTH = 400
-const HEIGHT = 400
-const RADIUS = 40
-const K = 50
-const DEBUG = false
+const WIDTH = 600
+const HEIGHT = 600
+const BLEED = 100
+const MINIMUM_DISTANCE = 40
+const K = 30
+const DEBUG = true
+const POINT_RADIUS = 1
 
-const cellSize = RADIUS * Math.SQRT1_2
-const gridWidth = Math.ceil(WIDTH / cellSize)
-const gridHeight = Math.ceil(HEIGHT / cellSize)
+const xMin = 0
+const xMax = WIDTH + BLEED * 2
+const yMin = 0
+const yMax = HEIGHT + BLEED * 2
+const cellSize = MINIMUM_DISTANCE * Math.SQRT1_2
+const gridWidth = Math.ceil(xMax - xMin / cellSize)
+const gridHeight = Math.ceil(yMax - yMin / cellSize)
 const grid: Array<Point | null> = Array(gridWidth * gridHeight).fill(null)
 
 const container = document.getElementById('drawing')!
 const svg = SVG()
   .size(WIDTH, HEIGHT)
+  .viewbox(BLEED, BLEED, WIDTH, HEIGHT)
   .addTo(container)
 
-const drawPoint = ({ x, y }: Point, showRadius = false) => {
+const drawPoint = ({ x, y }: Point, showMinimumDistance = false) => {
   svg
-    .circle(1)
-    .move(x, y)
-    .fill('black')
+    .circle(POINT_RADIUS * 2)
+    .move(x - POINT_RADIUS, y - POINT_RADIUS)
+    .fill('blue')
 
-  if (showRadius) {
+  if (showMinimumDistance) {
     svg
-      .circle(RADIUS * 2)
-      .move(x - RADIUS, y - RADIUS)
+      .circle(MINIMUM_DISTANCE * 2)
+      .move(x - MINIMUM_DISTANCE, y - MINIMUM_DISTANCE)
       .stroke('rgba(0, 0, 255, 0.2)')
       .fill('none')
   }
 }
 
-const randomX = () => WIDTH * Math.random()
-const randomY = () => HEIGHT * Math.random()
+const randomX = () => xMax - xMin * Math.random()
+const randomY = () => yMax - yMin * Math.random()
 const distanceSquared = (x1: number, y1: number, x2: number, y2: number) =>
   (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
 const toIndexFromWorld = (x: number, y: number) => toIndexFromGrid(Math.floor(x / cellSize), Math.floor(y / cellSize))
@@ -55,7 +62,7 @@ const addPoint = (x: number, y: number) => {
 }
 
 const isValidPoint = ({ x, y }: Point): boolean => {
-  if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
+  if (x < xMin || x > xMax - xMin || y < yMin || y > yMax - yMin) {
     return false
   }
 
@@ -69,7 +76,7 @@ const isValidPoint = ({ x, y }: Point): boolean => {
         const index = toIndexFromGrid(col, row)
         const cell = grid[index]
 
-        if (cell !== null && distanceSquared(x, y, cell.x, cell.y) <= Math.pow(RADIUS, 2)) {
+        if (cell !== null && distanceSquared(x, y, cell.x, cell.y) <= Math.pow(MINIMUM_DISTANCE, 2)) {
           return false
         }
       }
@@ -88,7 +95,7 @@ const nextPoint = (): Point | null => {
     const index = Math.floor(pointQueue.length * Math.random())
 
     for (let i = 0; i < K; i += 1) {
-      const distance = RADIUS * (Math.random() + 1)
+      const distance = MINIMUM_DISTANCE * (Math.random() + 1)
       const angle = 2 * Math.PI * Math.random()
       const candidatePoint: Point = {
         x: pointQueue[index].x + distance * Math.cos(angle),
