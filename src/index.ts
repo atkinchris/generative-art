@@ -1,5 +1,6 @@
 import { SVG } from '@svgdotjs/svg.js'
 import Delaunator from 'delaunator'
+import Noise from 'simplex-noise'
 
 import { intersect, isBetween } from './lines'
 import poisson, { Point } from './poisson'
@@ -11,8 +12,9 @@ const HEIGHT = window.innerHeight
 const MINIMUM_DISTANCE = 60
 const K = 30
 const TRIANGLE_TEST_THRESHOLD = 100
-const STRIPES_MIN = 7
+const STRIPES_MIN = 8
 const STRIPES_MAX = 12
+const COLOURS = ['#e23e57', '#88304e', '#522546', '#311d3f']
 
 const container = document.getElementById('drawing')!
 const svg = SVG()
@@ -20,6 +22,7 @@ const svg = SVG()
   .viewbox(BLEED, BLEED, WIDTH, HEIGHT)
   .addTo(container)
 
+const noise = new Noise()
 const points: Point[] = []
 const nextPoint = poisson({
   width: WIDTH + BLEED * 2,
@@ -42,6 +45,7 @@ allPoints()
 interface Triangle {
   points: [Point, Point, Point]
   innerLines: Array<[Point, Point]>
+  colour: string
 }
 
 const pointsAsTuples = points.map(point => [point.x, point.y])
@@ -50,7 +54,12 @@ const triangles: Triangle[] = []
 const randomBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
 
 for (let i = 0; i < delauney.length; i += 3) {
+  const noiseValue = noise.noise2D(points[delauney[i]].x, points[delauney[i]].y)
+  const noiseIndex = Math.floor(((noiseValue + 1) / 2) * COLOURS.length)
+  const colour = COLOURS[noiseIndex]
+
   triangles.push({
+    colour,
     points: [points[delauney[i]], points[delauney[i + 1]], points[delauney[i + 2]]],
     innerLines: [],
   })
@@ -115,10 +124,10 @@ const drawTriangle = () => {
   //     triangle.points[2].y,
   //   ])
   //   .fill('none')
-  //   .stroke({ width: 1, color: 'rgba(64,64,64,1)' })
+  //   .stroke({ width: 1, color: triangle.colour })
 
   triangle.innerLines.forEach(line => {
-    svg.line([line[0].x, line[0].y, line[1].x, line[1].y]).stroke({ width: 1, color: 'rgba(192,192,192,1)' })
+    svg.line([line[0].x, line[0].y, line[1].x, line[1].y]).stroke({ width: 1, color: triangle.colour })
   })
 
   index += 1
