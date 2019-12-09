@@ -1,6 +1,7 @@
 import { SVG } from '@svgdotjs/svg.js'
 import Delaunator from 'delaunator'
 
+import intersect from './intersect'
 import poisson, { Point } from './poisson'
 import Vector from './Vector'
 
@@ -53,7 +54,7 @@ for (let i = 0; i < delauney.length; i += 3) {
 }
 
 triangles.forEach(triangle => {
-  const activeSide = randomBetween(0, 2)
+  const activeSide = randomBetween(0, 0)
 
   const a = new Vector(triangle.points[(0 + activeSide) % 3].x, triangle.points[(0 + activeSide) % 3].y)
   const b = new Vector(triangle.points[(1 + activeSide) % 3].x, triangle.points[(1 + activeSide) % 3].y)
@@ -71,7 +72,13 @@ triangles.forEach(triangle => {
 
     const a1 = a.add(translationVector.multiply(multiplier))
     const b1 = b.add(translationVector.multiply(multiplier))
-    triangle.innerLines.push([a1, b1])
+
+    const acIntersect = intersect(a1, b1, a, c)
+    const bcIntersect = intersect(a1, b1, b, c)
+
+    if (acIntersect !== null && bcIntersect !== null) {
+      triangle.innerLines.push([acIntersect, bcIntersect])
+    }
   }
 })
 
