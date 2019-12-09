@@ -34,14 +34,22 @@ const allPoints = () => {
 
 allPoints()
 
-type TuplePoint = [number, number]
+interface Triangle {
+  a: Point
+  b: Point
+  c: Point
+}
 
-const pointsAsTuples: TuplePoint[] = points.map(point => [point.x, point.y])
+const pointsAsTuples = points.map(point => [point.x, point.y])
 const delauney = Delaunator.from(pointsAsTuples).triangles
-const triangles: Array<[TuplePoint, TuplePoint, TuplePoint]> = []
+const triangles: Triangle[] = []
 
 for (let i = 0; i < delauney.length; i += 3) {
-  triangles.push([pointsAsTuples[delauney[i]], pointsAsTuples[delauney[i + 1]], pointsAsTuples[delauney[i + 2]]])
+  triangles.push({
+    a: points[delauney[i]],
+    b: points[delauney[i + 1]],
+    c: points[delauney[i + 2]],
+  })
 }
 
 let index = 0
@@ -55,7 +63,7 @@ const drawTriangle = () => {
 
   index += 1
   svg
-    .polygon(triangle)
+    .polygon([triangle.a.x, triangle.a.y, triangle.b.x, triangle.b.y, triangle.c.x, triangle.c.y])
     .fill('none')
     .stroke({ width: 1, color: 'rgba(64,64,64,1)' })
 
