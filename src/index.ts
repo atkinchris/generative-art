@@ -5,12 +5,14 @@ import { intersect, isBetween } from './lines'
 import poisson, { Point } from './poisson'
 import Vector from './Vector'
 
-const WIDTH = 600
-const HEIGHT = 600
 const BLEED = 100
+const WIDTH = window.innerWidth
+const HEIGHT = window.innerHeight
 const MINIMUM_DISTANCE = 60
 const K = 30
 const TRIANGLE_TEST_THRESHOLD = 100
+const STRIPES_MIN = 7
+const STRIPES_MAX = 12
 
 const container = document.getElementById('drawing')!
 const svg = SVG()
@@ -76,8 +78,8 @@ const buildTriangle = (triangle: Triangle, offset = 0) => {
     return
   }
 
-  const stripes = randomBetween(5, 10)
-  for (let i = 1; i < stripes; i += 1) {
+  const stripes = randomBetween(STRIPES_MIN, STRIPES_MAX)
+  for (let i = 0; i <= stripes; i += 1) {
     const multiplier = (1 / stripes) * i
 
     const a1 = a.add(translationVector.multiply(multiplier))
@@ -103,20 +105,20 @@ const drawTriangle = () => {
 
   const triangle = triangles[index]
 
-  svg
-    .polygon([
-      triangle.points[0].x,
-      triangle.points[0].y,
-      triangle.points[1].x,
-      triangle.points[1].y,
-      triangle.points[2].x,
-      triangle.points[2].y,
-    ])
-    .fill('none')
-    .stroke({ width: 1, color: 'rgba(64,64,64,1)' })
+  // svg
+  //   .polygon([
+  //     triangle.points[0].x,
+  //     triangle.points[0].y,
+  //     triangle.points[1].x,
+  //     triangle.points[1].y,
+  //     triangle.points[2].x,
+  //     triangle.points[2].y,
+  //   ])
+  //   .fill('none')
+  //   .stroke({ width: 1, color: 'rgba(64,64,64,1)' })
 
   triangle.innerLines.forEach(line => {
-    svg.line([line[0].x, line[0].y, line[1].x, line[1].y]).stroke({ width: 1, color: 'rgba(64,64,64,0.3)' })
+    svg.line([line[0].x, line[0].y, line[1].x, line[1].y]).stroke({ width: 1, color: 'rgba(192,192,192,1)' })
   })
 
   index += 1
