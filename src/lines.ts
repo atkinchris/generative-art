@@ -29,4 +29,25 @@ const intersect = (a1: Point, b1: Point, a2: Point, b2: Point): Point | null => 
   return { x, y }
 }
 
-export default intersect
+const isBetween = (a: Point, b: Point, c: Point, tolerance = 0) => {
+  const distance =
+    Math.abs((c.y - b.y) * a.x - (c.x - b.x) * a.y + c.x * b.y - c.y * b.x) /
+    Math.sqrt(Math.pow(c.y - b.y, 2) + Math.pow(c.x - b.x, 2))
+  if (distance > tolerance) {
+    return false
+  }
+
+  const dotproduct = (c.x - a.x) * (b.x - a.x) + (c.y - a.y) * (b.y - a.y)
+  if (dotproduct < 0) {
+    return false
+  }
+
+  const squaredlengthba = (b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)
+  if (dotproduct > squaredlengthba) {
+    return false
+  }
+
+  return true
+}
+
+export { intersect, isBetween }
