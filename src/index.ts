@@ -36,31 +36,28 @@ const allPoints = () => {
 allPoints()
 
 interface Triangle {
-  a: Point
-  b: Point
-  c: Point
+  points: [Point, Point, Point]
   innerLines: Array<[Point, Point]>
 }
 
 const pointsAsTuples = points.map(point => [point.x, point.y])
 const delauney = Delaunator.from(pointsAsTuples).triangles
 const triangles: Triangle[] = []
-// const randomSide = () => ['a', 'b', 'c'][Math.floor(Math.random() * 4)] as 'a' | 'b' | 'c'
 const randomBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
 
 for (let i = 0; i < delauney.length; i += 3) {
   triangles.push({
-    a: points[delauney[i]],
-    b: points[delauney[i + 1]],
-    c: points[delauney[i + 2]],
+    points: [points[delauney[i]], points[delauney[i + 1]], points[delauney[i + 2]]],
     innerLines: [],
   })
 }
 
 triangles.forEach(triangle => {
-  const a = new Vector(triangle.a.x, triangle.a.y)
-  const b = new Vector(triangle.b.x, triangle.b.y)
-  const c = new Vector(triangle.c.x, triangle.c.y)
+  const activeSide = randomBetween(0, 2)
+
+  const a = new Vector(triangle.points[(0 + activeSide) % 3].x, triangle.points[(0 + activeSide) % 3].y)
+  const b = new Vector(triangle.points[(1 + activeSide) % 3].x, triangle.points[(1 + activeSide) % 3].y)
+  const c = new Vector(triangle.points[(2 + activeSide) % 3].x, triangle.points[(2 + activeSide) % 3].y)
 
   const bSubA = b.subtract(a)
   const cSubA = c.subtract(a)
@@ -88,7 +85,14 @@ const drawTriangle = () => {
   const triangle = triangles[index]
 
   svg
-    .polygon([triangle.a.x, triangle.a.y, triangle.b.x, triangle.b.y, triangle.c.x, triangle.c.y])
+    .polygon([
+      triangle.points[0].x,
+      triangle.points[0].y,
+      triangle.points[1].x,
+      triangle.points[1].y,
+      triangle.points[2].x,
+      triangle.points[2].y,
+    ])
     .fill('none')
     .stroke({ width: 1, color: 'rgba(64,64,64,1)' })
 
